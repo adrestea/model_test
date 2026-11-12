@@ -1,0 +1,5106 @@
+{
+  "run_name": "hard",
+  "created_at": "2026-11-12T14:31:41+00:00",
+  "config": {
+    "run_name": "hard",
+    "dataset": {
+      "name": "hard",
+      "modality": "image",
+      "lang": "zh",
+      "media_dir": "datasets/hard/images",
+      "labels_dir": "datasets/hard/labels",
+      "limit": 12,
+      "sample_ids": null
+    },
+    "tasks": [
+      "recognize"
+    ],
+    "concurrency": 4,
+    "retries": 1,
+    "repeats": 1,
+    "cache": true,
+    "timeout_s": 120.0,
+    "normalize": {
+      "strip_whitespace": true,
+      "unify_punct": true
+    },
+    "strict": false,
+    "engines": [
+      {
+        "id": "rapidocr",
+        "type": "ocr.rapidocr",
+        "params": {
+          "device": "cpu"
+        },
+        "cost": {
+          "per_image": 0
+        }
+      },
+      {
+        "id": "tesseract",
+        "type": "ocr.tesseract",
+        "params": {
+          "lang": "chi_sim+eng",
+          "psm": 6
+        },
+        "cost": {
+          "per_image": 0
+        }
+      },
+      {
+        "id": "paddleocr",
+        "type": "ocr.paddleocr",
+        "params": {
+          "lang": "ch"
+        },
+        "cost": {
+          "per_image": 0
+        }
+      },
+      {
+        "id": "qwen-vl-max",
+        "type": "vlm.openai_compat",
+        "params": {
+          "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+          "model": "qwen-vl-max",
+          "api_key_env": "***"
+        },
+        "cost": {
+          "input_per_1m": 3.0,
+          "output_per_1m": 9.0
+        }
+      },
+      {
+        "id": "local-qwen25vl-3b",
+        "type": "vlm.local",
+        "params": {
+          "backend": "ollama",
+          "model": "qwen2.5vl:3b",
+          "base_url": "http://localhost:11434",
+          "device": "auto"
+        },
+        "cost": {
+          "per_image": 0
+        }
+      }
+    ]
+  },
+  "env": {
+    "python": "3.10.12",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "cwd": "/home/archermind/workspace/ai-stack/model_test",
+    "duration_s": 0.302,
+    "requested_jobs": 60,
+    "engine_build_errors": [
+      {
+        "engine": "tesseract",
+        "error": "warmup 失败 RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+      },
+      {
+        "engine": "paddleocr",
+        "error": "warmup 失败 RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+      }
+    ],
+    "skipped": {
+      "count": 0,
+      "reasons": {},
+      "examples": []
+    }
+  },
+  "samples": [
+    "synth_0001",
+    "synth_0002",
+    "synth_0003",
+    "synth_0004",
+    "synth_0005",
+    "synth_0006",
+    "synth_0007",
+    "synth_0008",
+    "synth_0009",
+    "synth_0010",
+    "synth_0011",
+    "synth_0012"
+  ],
+  "predictions": [
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0001",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 1.38,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0002",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 4.22,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0003",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 1.28,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0004",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.95,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0005",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 2.19,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0006",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 1.72,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0007",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 6.93,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0008",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 1.62,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0009",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 2.9,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0010",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 1.85,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0011",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 2.28,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen25vl-3b",
+      "sample_id": "synth_0012",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 1.07,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+          "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0001",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.18,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0002",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 1.41,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0003",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 1.36,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0004",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.3,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0005",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.22,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0006",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.05,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0007",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.32,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0008",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.05,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0009",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.05,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0010",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.06,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0011",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.13,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "synth_0012",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.05,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0001",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0002",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0003",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0004",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0005",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.19,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0006",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0007",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0008",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0009",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0010",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0011",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "synth_0012",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0001",
+      "task": "recognize",
+      "modality": "image",
+      "text": "结算方式：月结30天\n银行账号：6222020200112233\n纳税人识别号：91110108MA01B2C34D\n检验员：钱七",
+      "lines": [
+        {
+          "text": "结算方式：月结30天",
+          "box": [
+            17.0,
+            26.0,
+            308.0,
+            61.0
+          ],
+          "score": 0.9964391231536865,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "银行账号：6222020200112233",
+          "box": [
+            17.0,
+            78.0,
+            482.0,
+            112.0
+          ],
+          "score": 0.9949891453697568,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "纳税人识别号：91110108MA01B2C34D",
+          "box": [
+            17.0,
+            129.0,
+            580.0,
+            163.0
+          ],
+          "score": 0.9955194234848023,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "检验员：钱七",
+          "box": [
+            17.0,
+            179.0,
+            209.0,
+            214.0
+          ],
+          "score": 0.9920589228471121,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              17.0,
+              26.0
+            ],
+            [
+              308.0,
+              28.0
+            ],
+            [
+              308.0,
+              61.0
+            ],
+            [
+              17.0,
+              59.0
+            ]
+          ],
+          "结算方式：月结30天",
+          0.9964391231536865
+        ],
+        [
+          [
+            [
+              17.0,
+              78.0
+            ],
+            [
+              482.0,
+              80.0
+            ],
+            [
+              482.0,
+              112.0
+            ],
+            [
+              17.0,
+              110.0
+            ]
+          ],
+          "银行账号：6222020200112233",
+          0.9949891453697568
+        ],
+        [
+          [
+            [
+              17.0,
+              129.0
+            ],
+            [
+              580.0,
+              130.0
+            ],
+            [
+              580.0,
+              163.0
+            ],
+            [
+              17.0,
+              161.0
+            ]
+          ],
+          "纳税人识别号：91110108MA01B2C34D",
+          0.9955194234848023
+        ],
+        [
+          [
+            [
+              17.0,
+              179.0
+            ],
+            [
+              209.0,
+              181.0
+            ],
+            [
+              209.0,
+              214.0
+            ],
+            [
+              17.0,
+              213.0
+            ]
+          ],
+          "检验员：钱七",
+          0.9920589228471121
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          597,
+          238
+        ],
+        "infer_ms": 2015.46,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 1297.29,
+          "cls_ms": 6.32,
+          "rec_ms": 700.72
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          2017.24
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 2017.24,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0002",
+      "task": "recognize",
+      "modality": "image",
+      "text": "银行账号：6222020200112233\n备注：货到验收合格后付款\n邮政编码：100080\n序号：0042",
+      "lines": [
+        {
+          "text": "银行账号：6222020200112233",
+          "box": [
+            18.0,
+            29.0,
+            481.0,
+            61.0
+          ],
+          "score": 0.9956860826129005,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "备注：货到验收合格后付款",
+          "box": [
+            18.0,
+            78.0,
+            400.0,
+            113.0
+          ],
+          "score": 0.9957577089468638,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "邮政编码：100080",
+          "box": [
+            19.0,
+            131.0,
+            284.0,
+            163.0
+          ],
+          "score": 0.9968337254090742,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "序号：0042",
+          "box": [
+            19.0,
+            183.0,
+            185.0,
+            215.0
+          ],
+          "score": 0.9958917839186532,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              18.0,
+              30.0
+            ],
+            [
+              481.0,
+              29.0
+            ],
+            [
+              481.0,
+              60.0
+            ],
+            [
+              18.0,
+              61.0
+            ]
+          ],
+          "银行账号：6222020200112233",
+          0.9956860826129005
+        ],
+        [
+          [
+            [
+              18.0,
+              80.0
+            ],
+            [
+              400.0,
+              78.0
+            ],
+            [
+              400.0,
+              111.0
+            ],
+            [
+              18.0,
+              113.0
+            ]
+          ],
+          "备注：货到验收合格后付款",
+          0.9957577089468638
+        ],
+        [
+          [
+            [
+              19.0,
+              131.0
+            ],
+            [
+              284.0,
+              131.0
+            ],
+            [
+              284.0,
+              163.0
+            ],
+            [
+              19.0,
+              163.0
+            ]
+          ],
+          "邮政编码：100080",
+          0.9968337254090742
+        ],
+        [
+          [
+            [
+              19.0,
+              183.0
+            ],
+            [
+              185.0,
+              183.0
+            ],
+            [
+              185.0,
+              215.0
+            ],
+            [
+              19.0,
+              215.0
+            ]
+          ],
+          "序号：0042",
+          0.9958917839186532
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          500,
+          239
+        ],
+        "infer_ms": 1777.15,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 1199.32,
+          "cls_ms": 4.6,
+          "rec_ms": 566.41
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1778.74
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 1778.74,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0003",
+      "task": "recognize",
+      "modality": "image",
+      "text": "数量：120件\n联系电话：138-0000-1111\n合同编号：HT-2024-0091\n金额小写：￥38400.00\n检验员：钱七\n发票号码：12345678",
+      "lines": [
+        {
+          "text": "数量：120件",
+          "box": [
+            20.0,
+            27.0,
+            197.0,
+            59.0
+          ],
+          "score": 0.9966875399862017,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "联系电话：138-0000-1111",
+          "box": [
+            19.0,
+            78.0,
+            394.0,
+            111.0
+          ],
+          "score": 0.9929173853662279,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "合同编号：HT-2024-0091",
+          "box": [
+            20.0,
+            130.0,
+            380.0,
+            162.0
+          ],
+          "score": 0.9950913366149453,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "金额小写：￥38400.00",
+          "box": [
+            19.0,
+            180.0,
+            350.0,
+            214.0
+          ],
+          "score": 0.9760495466845376,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "检验员：钱七",
+          "box": [
+            18.0,
+            231.0,
+            208.0,
+            264.0
+          ],
+          "score": 0.9919065336386362,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "发票号码：12345678",
+          "box": [
+            19.0,
+            282.0,
+            319.0,
+            315.0
+          ],
+          "score": 0.9958693385124207,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              21.0,
+              27.0
+            ],
+            [
+              197.0,
+              29.0
+            ],
+            [
+              197.0,
+              59.0
+            ],
+            [
+              20.0,
+              57.0
+            ]
+          ],
+          "数量：120件",
+          0.9966875399862017
+        ],
+        [
+          [
+            [
+              19.0,
+              78.0
+            ],
+            [
+              394.0,
+              80.0
+            ],
+            [
+              394.0,
+              111.0
+            ],
+            [
+              19.0,
+              109.0
+            ]
+          ],
+          "联系电话：138-0000-1111",
+          0.9929173853662279
+        ],
+        [
+          [
+            [
+              20.0,
+              130.0
+            ],
+            [
+              380.0,
+              131.0
+            ],
+            [
+              380.0,
+              162.0
+            ],
+            [
+              20.0,
+              160.0
+            ]
+          ],
+          "合同编号：HT-2024-0091",
+          0.9950913366149453
+        ],
+        [
+          [
+            [
+              19.0,
+              180.0
+            ],
+            [
+              350.0,
+              183.0
+            ],
+            [
+              350.0,
+              214.0
+            ],
+            [
+              19.0,
+              211.0
+            ]
+          ],
+          "金额小写：￥38400.00",
+          0.9760495466845376
+        ],
+        [
+          [
+            [
+              18.0,
+              231.0
+            ],
+            [
+              208.0,
+              233.0
+            ],
+            [
+              207.0,
+              264.0
+            ],
+            [
+              18.0,
+              262.0
+            ]
+          ],
+          "检验员：钱七",
+          0.9919065336386362
+        ],
+        [
+          [
+            [
+              19.0,
+              282.0
+            ],
+            [
+              319.0,
+              284.0
+            ],
+            [
+              318.0,
+              315.0
+            ],
+            [
+              19.0,
+              313.0
+            ]
+          ],
+          "发票号码：12345678",
+          0.9958693385124207
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          413,
+          342
+        ],
+        "infer_ms": 1133.74,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 407.37,
+          "cls_ms": 6.08,
+          "rec_ms": 714.2
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1135.29
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 1135.29,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0004",
+      "task": "recognize",
+      "modality": "image",
+      "text": "产品名称：智能语音识别模块\n运输方式：公路运输\n产品名称：智能语音识别模块\n乙方：上海示例信息技术有限公司",
+      "lines": [
+        {
+          "text": "产品名称：智能语音识别模块",
+          "box": [
+            19.0,
+            26.0,
+            435.0,
+            64.0
+          ],
+          "score": 0.9884798435064462,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "运输方式：公路运输",
+          "box": [
+            17.0,
+            78.0,
+            306.0,
+            114.0
+          ],
+          "score": 0.9911653531922234,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "产品名称：智能语音识别模块",
+          "box": [
+            18.0,
+            129.0,
+            434.0,
+            166.0
+          ],
+          "score": 0.9886063658274137,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "乙方：上海示例信息技术有限公司",
+          "box": [
+            18.0,
+            179.0,
+            495.0,
+            220.0
+          ],
+          "score": 0.9931865294774374,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              20.0,
+              26.0
+            ],
+            [
+              435.0,
+              30.0
+            ],
+            [
+              435.0,
+              64.0
+            ],
+            [
+              19.0,
+              60.0
+            ]
+          ],
+          "产品名称：智能语音识别模块",
+          0.9884798435064462
+        ],
+        [
+          [
+            [
+              18.0,
+              78.0
+            ],
+            [
+              306.0,
+              81.0
+            ],
+            [
+              306.0,
+              114.0
+            ],
+            [
+              17.0,
+              111.0
+            ]
+          ],
+          "运输方式：公路运输",
+          0.9911653531922234
+        ],
+        [
+          [
+            [
+              18.0,
+              129.0
+            ],
+            [
+              434.0,
+              134.0
+            ],
+            [
+              433.0,
+              166.0
+            ],
+            [
+              18.0,
+              161.0
+            ]
+          ],
+          "产品名称：智能语音识别模块",
+          0.9886063658274137
+        ],
+        [
+          [
+            [
+              18.0,
+              179.0
+            ],
+            [
+              495.0,
+              186.0
+            ],
+            [
+              495.0,
+              220.0
+            ],
+            [
+              18.0,
+              212.0
+            ]
+          ],
+          "乙方：上海示例信息技术有限公司",
+          0.9931865294774374
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          515,
+          243
+        ],
+        "infer_ms": 1712.25,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 1201.99,
+          "cls_ms": 8.13,
+          "rec_ms": 497.12
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1713.63
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 1713.63,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0005",
+      "task": "recognize",
+      "modality": "image",
+      "text": "开户银行：中国工商银行北京分行\n运输方式：公路运输\n交货日期：2024年6月30日\n规格型号：VLM-OCR-3000\n开票日期：2024年05月01日",
+      "lines": [
+        {
+          "text": "开户银行：中国工商银行北京分行",
+          "box": [
+            18.0,
+            27.0,
+            494.0,
+            61.0
+          ],
+          "score": 0.9947933316230774,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "运输方式：公路运输",
+          "box": [
+            18.0,
+            79.0,
+            304.0,
+            112.0
+          ],
+          "score": 0.9901508887608846,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "交货日期：2024年6月30日",
+          "box": [
+            18.0,
+            131.0,
+            393.0,
+            163.0
+          ],
+          "score": 0.9951084653536478,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "规格型号：VLM-OCR-3000",
+          "box": [
+            19.0,
+            183.0,
+            395.0,
+            212.0
+          ],
+          "score": 0.9908519387245178,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "开票日期：2024年05月01日",
+          "box": [
+            19.0,
+            233.0,
+            411.0,
+            265.0
+          ],
+          "score": 0.9951269775629044,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              18.0,
+              29.0
+            ],
+            [
+              494.0,
+              27.0
+            ],
+            [
+              494.0,
+              58.0
+            ],
+            [
+              18.0,
+              61.0
+            ]
+          ],
+          "开户银行：中国工商银行北京分行",
+          0.9947933316230774
+        ],
+        [
+          [
+            [
+              18.0,
+              80.0
+            ],
+            [
+              304.0,
+              79.0
+            ],
+            [
+              304.0,
+              110.0
+            ],
+            [
+              18.0,
+              112.0
+            ]
+          ],
+          "运输方式：公路运输",
+          0.9901508887608846
+        ],
+        [
+          [
+            [
+              18.0,
+              131.0
+            ],
+            [
+              393.0,
+              131.0
+            ],
+            [
+              393.0,
+              163.0
+            ],
+            [
+              18.0,
+              163.0
+            ]
+          ],
+          "交货日期：2024年6月30日",
+          0.9951084653536478
+        ],
+        [
+          [
+            [
+              19.0,
+              183.0
+            ],
+            [
+              395.0,
+              183.0
+            ],
+            [
+              395.0,
+              212.0
+            ],
+            [
+              19.0,
+              212.0
+            ]
+          ],
+          "规格型号：VLM-OCR-3000",
+          0.9908519387245178
+        ],
+        [
+          [
+            [
+              19.0,
+              234.0
+            ],
+            [
+              411.0,
+              233.0
+            ],
+            [
+              411.0,
+              263.0
+            ],
+            [
+              19.0,
+              265.0
+            ]
+          ],
+          "开票日期：2024年05月01日",
+          0.9951269775629044
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          514,
+          289
+        ],
+        "infer_ms": 1275.51,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 669.0,
+          "cls_ms": 9.74,
+          "rec_ms": 588.93
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1276.85
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 1276.85,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0006",
+      "task": "recognize",
+      "modality": "image",
+      "text": "大写金额：叁万捌仟肆佰元整\n审核人：王五\n签发日期：2024年3月15日",
+      "lines": [
+        {
+          "text": "大写金额：叁万捌仟肆佰元整",
+          "box": [
+            18.0,
+            26.0,
+            436.0,
+            68.0
+          ],
+          "score": 0.9686935727412884,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "审核人：王五",
+          "box": [
+            18.0,
+            77.0,
+            212.0,
+            116.0
+          ],
+          "score": 0.9952815771102905,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "签发日期：2024年3月15日",
+          "box": [
+            16.0,
+            128.0,
+            395.0,
+            170.0
+          ],
+          "score": 0.9953001658121745,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              19.0,
+              26.0
+            ],
+            [
+              436.0,
+              33.0
+            ],
+            [
+              436.0,
+              68.0
+            ],
+            [
+              18.0,
+              61.0
+            ]
+          ],
+          "大写金额：叁万捌仟肆佰元整",
+          0.9686935727412884
+        ],
+        [
+          [
+            [
+              19.0,
+              77.0
+            ],
+            [
+              212.0,
+              81.0
+            ],
+            [
+              211.0,
+              116.0
+            ],
+            [
+              18.0,
+              111.0
+            ]
+          ],
+          "审核人：王五",
+          0.9952815771102905
+        ],
+        [
+          [
+            [
+              17.0,
+              128.0
+            ],
+            [
+              395.0,
+              136.0
+            ],
+            [
+              394.0,
+              170.0
+            ],
+            [
+              16.0,
+              161.0
+            ]
+          ],
+          "签发日期：2024年3月15日",
+          0.9953001658121745
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          452,
+          195
+        ],
+        "infer_ms": 1404.76,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 983.51,
+          "cls_ms": 11.73,
+          "rec_ms": 387.06
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1405.24
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 1405.24,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0007",
+      "task": "recognize",
+      "modality": "image",
+      "text": "电子邮箱：s\nsupport@example.com\n提货地点：上海市浦东新区世纪大道100号\n批准人：赵六",
+      "lines": [
+        {
+          "text": "电子邮箱：s",
+          "box": [
+            18.0,
+            26.0,
+            188.0,
+            60.0
+          ],
+          "score": 0.9112182458241781,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "support@example.com",
+          "box": [
+            171.0,
+            30.0,
+            527.0,
+            64.0
+          ],
+          "score": 0.9924669955906115,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "提货地点：上海市浦东新区世纪大道100号",
+          "box": [
+            15.0,
+            75.0,
+            613.0,
+            113.0
+          ],
+          "score": 0.9932502776384353,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "批准人：赵六",
+          "box": [
+            16.0,
+            126.0,
+            210.0,
+            163.0
+          ],
+          "score": 0.984199990828832,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              18.0,
+              26.0
+            ],
+            [
+              188.0,
+              27.0
+            ],
+            [
+              188.0,
+              60.0
+            ],
+            [
+              18.0,
+              59.0
+            ]
+          ],
+          "电子邮箱：s",
+          0.9112182458241781
+        ],
+        [
+          [
+            [
+              171.0,
+              32.0
+            ],
+            [
+              526.0,
+              30.0
+            ],
+            [
+              527.0,
+              62.0
+            ],
+            [
+              171.0,
+              64.0
+            ]
+          ],
+          "support@example.com",
+          0.9924669955906115
+        ],
+        [
+          [
+            [
+              15.0,
+              75.0
+            ],
+            [
+              613.0,
+              76.0
+            ],
+            [
+              613.0,
+              113.0
+            ],
+            [
+              15.0,
+              113.0
+            ]
+          ],
+          "提货地点：上海市浦东新区世纪大道100号",
+          0.9932502776384353
+        ],
+        [
+          [
+            [
+              16.0,
+              126.0
+            ],
+            [
+              210.0,
+              127.0
+            ],
+            [
+              210.0,
+              163.0
+            ],
+            [
+              16.0,
+              162.0
+            ]
+          ],
+          "批准人：赵六",
+          0.984199990828832
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          630,
+          187
+        ],
+        "infer_ms": 2212.64,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 1577.55,
+          "cls_ms": 20.56,
+          "rec_ms": 603.81
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          2213.0
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 2213.0,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0008",
+      "task": "recognize",
+      "modality": "image",
+      "text": "乙方：上海示例信息技术有限公司\n批准人：赵六\n邮政编码：100080\n备注：货到验收合格后付款\n合同编号：HT-2024-0091",
+      "lines": [
+        {
+          "text": "乙方：上海示例信息技术有限公司",
+          "box": [
+            22.0,
+            27.0,
+            497.0,
+            63.0
+          ],
+          "score": 0.988458494345347,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "批准人：赵六",
+          "box": [
+            19.0,
+            77.0,
+            211.0,
+            112.0
+          ],
+          "score": 0.9912161529064178,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "邮政编码：100080",
+          "box": [
+            20.0,
+            129.0,
+            285.0,
+            163.0
+          ],
+          "score": 0.9961006803946062,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "备注：货到验收合格后付款",
+          "box": [
+            19.0,
+            180.0,
+            400.0,
+            215.0
+          ],
+          "score": 0.9965118964513143,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "合同编号：HT-2024-0091",
+          "box": [
+            19.0,
+            231.0,
+            379.0,
+            266.0
+          ],
+          "score": 0.994592102134929,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              23.0,
+              27.0
+            ],
+            [
+              497.0,
+              33.0
+            ],
+            [
+              496.0,
+              63.0
+            ],
+            [
+              22.0,
+              58.0
+            ]
+          ],
+          "乙方：上海示例信息技术有限公司",
+          0.988458494345347
+        ],
+        [
+          [
+            [
+              20.0,
+              77.0
+            ],
+            [
+              211.0,
+              80.0
+            ],
+            [
+              210.0,
+              112.0
+            ],
+            [
+              19.0,
+              109.0
+            ]
+          ],
+          "批准人：赵六",
+          0.9912161529064178
+        ],
+        [
+          [
+            [
+              20.0,
+              129.0
+            ],
+            [
+              285.0,
+              132.0
+            ],
+            [
+              284.0,
+              163.0
+            ],
+            [
+              20.0,
+              160.0
+            ]
+          ],
+          "邮政编码：100080",
+          0.9961006803946062
+        ],
+        [
+          [
+            [
+              19.0,
+              180.0
+            ],
+            [
+              400.0,
+              184.0
+            ],
+            [
+              400.0,
+              215.0
+            ],
+            [
+              19.0,
+              211.0
+            ]
+          ],
+          "备注：货到验收合格后付款",
+          0.9965118964513143
+        ],
+        [
+          [
+            [
+              20.0,
+              231.0
+            ],
+            [
+              379.0,
+              235.0
+            ],
+            [
+              379.0,
+              266.0
+            ],
+            [
+              19.0,
+              262.0
+            ]
+          ],
+          "合同编号：HT-2024-0091",
+          0.994592102134929
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          516,
+          293
+        ],
+        "infer_ms": 1474.59,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 605.38,
+          "cls_ms": 12.82,
+          "rec_ms": 847.05
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1474.9
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 1474.9,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0009",
+      "task": "recognize",
+      "modality": "image",
+      "text": "联系电话：138-0000-1111\n批准人：赵六\n发票号码：12345678\n提货地点：上海市浦东新区世纪大道100号\n规格型号：VLM-OCR-3000\n发票号码：12345678",
+      "lines": [
+        {
+          "text": "联系电话：138-0000-1111",
+          "box": [
+            19.0,
+            28.0,
+            393.0,
+            60.0
+          ],
+          "score": 0.9938539465268453,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "批准人：赵六",
+          "box": [
+            18.0,
+            81.0,
+            208.0,
+            112.0
+          ],
+          "score": 0.9950111905733744,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "发票号码：12345678",
+          "box": [
+            20.0,
+            132.0,
+            319.0,
+            163.0
+          ],
+          "score": 0.9962892669897813,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "提货地点：上海市浦东新区世纪大道100号",
+          "box": [
+            18.0,
+            179.0,
+            611.0,
+            214.0
+          ],
+          "score": 0.9938767939805985,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "规格型号：VLM-OCR-3000",
+          "box": [
+            19.0,
+            233.0,
+            396.0,
+            265.0
+          ],
+          "score": 0.9891177871648003,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "发票号码：12345678",
+          "box": [
+            20.0,
+            285.0,
+            319.0,
+            316.0
+          ],
+          "score": 0.9954798084038955,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              19.0,
+              31.0
+            ],
+            [
+              393.0,
+              28.0
+            ],
+            [
+              393.0,
+              57.0
+            ],
+            [
+              19.0,
+              60.0
+            ]
+          ],
+          "联系电话：138-0000-1111",
+          0.9938539465268453
+        ],
+        [
+          [
+            [
+              18.0,
+              81.0
+            ],
+            [
+              208.0,
+              81.0
+            ],
+            [
+              208.0,
+              112.0
+            ],
+            [
+              18.0,
+              112.0
+            ]
+          ],
+          "批准人：赵六",
+          0.9950111905733744
+        ],
+        [
+          [
+            [
+              20.0,
+              133.0
+            ],
+            [
+              319.0,
+              132.0
+            ],
+            [
+              319.0,
+              162.0
+            ],
+            [
+              20.0,
+              163.0
+            ]
+          ],
+          "发票号码：12345678",
+          0.9962892669897813
+        ],
+        [
+          [
+            [
+              18.0,
+              184.0
+            ],
+            [
+              611.0,
+              179.0
+            ],
+            [
+              611.0,
+              210.0
+            ],
+            [
+              18.0,
+              214.0
+            ]
+          ],
+          "提货地点：上海市浦东新区世纪大道100号",
+          0.9938767939805985
+        ],
+        [
+          [
+            [
+              19.0,
+              235.0
+            ],
+            [
+              396.0,
+              233.0
+            ],
+            [
+              396.0,
+              264.0
+            ],
+            [
+              19.0,
+              265.0
+            ]
+          ],
+          "规格型号：VLM-OCR-3000",
+          0.9891177871648003
+        ],
+        [
+          [
+            [
+              20.0,
+              286.0
+            ],
+            [
+              319.0,
+              285.0
+            ],
+            [
+              319.0,
+              315.0
+            ],
+            [
+              20.0,
+              316.0
+            ]
+          ],
+          "发票号码：12345678",
+          0.9954798084038955
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          631,
+          342
+        ],
+        "infer_ms": 1928.29,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 604.52,
+          "cls_ms": 13.7,
+          "rec_ms": 1305.44
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1928.52
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 1928.52,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0010",
+      "task": "recognize",
+      "modality": "image",
+      "text": "地址：北京市海淀区中关村大街1号\n数量：120件\n开票日期：2024年05月01日\n发票号码：12345678\n收款人：张三",
+      "lines": [
+        {
+          "text": "地址：北京市海淀区中关村大街1号",
+          "box": [
+            18.0,
+            27.0,
+            511.0,
+            59.0
+          ],
+          "score": 0.9953176267445087,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "数量：120件",
+          "box": [
+            18.0,
+            79.0,
+            196.0,
+            110.0
+          ],
+          "score": 0.9960549218314034,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "开票日期：2024年05月01日",
+          "box": [
+            17.0,
+            129.0,
+            411.0,
+            162.0
+          ],
+          "score": 0.9947363287210464,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "发票号码：12345678",
+          "box": [
+            19.0,
+            181.0,
+            318.0,
+            212.0
+          ],
+          "score": 0.9959542384514442,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "收款人：张三",
+          "box": [
+            19.0,
+            232.0,
+            206.0,
+            263.0
+          ],
+          "score": 0.996134618918101,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              18.0,
+              27.0
+            ],
+            [
+              511.0,
+              28.0
+            ],
+            [
+              511.0,
+              59.0
+            ],
+            [
+              18.0,
+              57.0
+            ]
+          ],
+          "地址：北京市海淀区中关村大街1号",
+          0.9953176267445087
+        ],
+        [
+          [
+            [
+              18.0,
+              79.0
+            ],
+            [
+              196.0,
+              79.0
+            ],
+            [
+              196.0,
+              110.0
+            ],
+            [
+              18.0,
+              110.0
+            ]
+          ],
+          "数量：120件",
+          0.9960549218314034
+        ],
+        [
+          [
+            [
+              17.0,
+              130.0
+            ],
+            [
+              410.0,
+              129.0
+            ],
+            [
+              411.0,
+              161.0
+            ],
+            [
+              17.0,
+              162.0
+            ]
+          ],
+          "开票日期：2024年05月01日",
+          0.9947363287210464
+        ],
+        [
+          [
+            [
+              19.0,
+              181.0
+            ],
+            [
+              318.0,
+              181.0
+            ],
+            [
+              318.0,
+              212.0
+            ],
+            [
+              19.0,
+              212.0
+            ]
+          ],
+          "发票号码：12345678",
+          0.9959542384514442
+        ],
+        [
+          [
+            [
+              19.0,
+              232.0
+            ],
+            [
+              206.0,
+              232.0
+            ],
+            [
+              206.0,
+              263.0
+            ],
+            [
+              19.0,
+              262.0
+            ]
+          ],
+          "收款人：张三",
+          0.996134618918101
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          531,
+          288
+        ],
+        "infer_ms": 1461.13,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 852.84,
+          "cls_ms": 11.05,
+          "rec_ms": 588.89
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1461.66
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 1461.66,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0011",
+      "task": "recognize",
+      "modality": "image",
+      "text": "生产批号：20240312A7\n数量：120件\n序号：0042\n经办人：李四",
+      "lines": [
+        {
+          "text": "生产批号：20240312A7",
+          "box": [
+            20.0,
+            27.0,
+            358.0,
+            66.0
+          ],
+          "score": 0.9950402975082397,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "数量：120件",
+          "box": [
+            18.0,
+            78.0,
+            199.0,
+            115.0
+          ],
+          "score": 0.9960446272577558,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "序号：0042",
+          "box": [
+            18.0,
+            130.0,
+            185.0,
+            165.0
+          ],
+          "score": 0.9968442320823669,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "经办人：李四",
+          "box": [
+            16.0,
+            180.0,
+            208.0,
+            218.0
+          ],
+          "score": 0.9975418448448181,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              21.0,
+              27.0
+            ],
+            [
+              358.0,
+              33.0
+            ],
+            [
+              357.0,
+              66.0
+            ],
+            [
+              20.0,
+              60.0
+            ]
+          ],
+          "生产批号：20240312A7",
+          0.9950402975082397
+        ],
+        [
+          [
+            [
+              19.0,
+              78.0
+            ],
+            [
+              199.0,
+              81.0
+            ],
+            [
+              198.0,
+              115.0
+            ],
+            [
+              18.0,
+              111.0
+            ]
+          ],
+          "数量：120件",
+          0.9960446272577558
+        ],
+        [
+          [
+            [
+              18.0,
+              130.0
+            ],
+            [
+              185.0,
+              133.0
+            ],
+            [
+              184.0,
+              165.0
+            ],
+            [
+              18.0,
+              162.0
+            ]
+          ],
+          "序号：0042",
+          0.9968442320823669
+        ],
+        [
+          [
+            [
+              17.0,
+              180.0
+            ],
+            [
+              208.0,
+              183.0
+            ],
+            [
+              207.0,
+              218.0
+            ],
+            [
+              16.0,
+              214.0
+            ]
+          ],
+          "经办人：李四",
+          0.9975418448448181
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          375,
+          243
+        ],
+        "infer_ms": 926.44,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 502.51,
+          "cls_ms": 6.59,
+          "rec_ms": 414.69
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          927.49
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 927.49,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "synth_0012",
+      "task": "recognize",
+      "modality": "image",
+      "text": "银行账号：6222020200112233\n订购单号：PO-8839201\n甲方：北京某某科技有限公司\n产品名称：智能语音识别模块\n备注：货到验收合格后付款",
+      "lines": [
+        {
+          "text": "银行账号：6222020200112233",
+          "box": [
+            20.0,
+            28.0,
+            482.0,
+            63.0
+          ],
+          "score": 0.9943089882532755,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "订购单号：PO-8839201",
+          "box": [
+            19.0,
+            79.0,
+            356.0,
+            111.0
+          ],
+          "score": 0.9794878164927164,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "甲方：北京某某科技有限公司",
+          "box": [
+            20.0,
+            130.0,
+            431.0,
+            164.0
+          ],
+          "score": 0.972828759596898,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "产品名称：智能语音识别模块",
+          "box": [
+            18.0,
+            181.0,
+            431.0,
+            214.0
+          ],
+          "score": 0.989424847639524,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "备注：货到验收合格后付款",
+          "box": [
+            18.0,
+            231.0,
+            400.0,
+            266.0
+          ],
+          "score": 0.9968435168266296,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              20.0,
+              28.0
+            ],
+            [
+              482.0,
+              33.0
+            ],
+            [
+              481.0,
+              63.0
+            ],
+            [
+              20.0,
+              58.0
+            ]
+          ],
+          "银行账号：6222020200112233",
+          0.9943089882532755
+        ],
+        [
+          [
+            [
+              19.0,
+              79.0
+            ],
+            [
+              356.0,
+              81.0
+            ],
+            [
+              355.0,
+              111.0
+            ],
+            [
+              19.0,
+              109.0
+            ]
+          ],
+          "订购单号：PO-8839201",
+          0.9794878164927164
+        ],
+        [
+          [
+            [
+              20.0,
+              130.0
+            ],
+            [
+              431.0,
+              133.0
+            ],
+            [
+              430.0,
+              164.0
+            ],
+            [
+              20.0,
+              161.0
+            ]
+          ],
+          "甲方：北京某某科技有限公司",
+          0.972828759596898
+        ],
+        [
+          [
+            [
+              18.0,
+              181.0
+            ],
+            [
+              431.0,
+              183.0
+            ],
+            [
+              431.0,
+              214.0
+            ],
+            [
+              18.0,
+              212.0
+            ]
+          ],
+          "产品名称：智能语音识别模块",
+          0.989424847639524
+        ],
+        [
+          [
+            [
+              18.0,
+              231.0
+            ],
+            [
+              400.0,
+              234.0
+            ],
+            [
+              399.0,
+              266.0
+            ],
+            [
+              18.0,
+              263.0
+            ]
+          ],
+          "备注：货到验收合格后付款",
+          0.9968435168266296
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          500,
+          291
+        ],
+        "infer_ms": 1044.28,
+        "load_ms": 258.31,
+        "stage_ms": {
+          "det_ms": 628.52,
+          "cls_ms": 7.7,
+          "rec_ms": 404.36
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1044.67
+        ],
+        "cache_hit": true,
+        "cached_latency_ms": 1044.67,
+        "cached_cost_usd": 0.0
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0001",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.15,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0002",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.98,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0003",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.24,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0004",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.36,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0005",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.46,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0006",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.19,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0007",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.24,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0008",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.21,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0009",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.26,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0010",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.4,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0011",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.17,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "synth_0012",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.36,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 2,
+        "repeats": 1
+      }
+    }
+  ],
+  "metrics": [
+    {
+      "sample_id": "synth_0001",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 1.3786861672997475,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0002",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 4.222676157951355,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0003",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 1.2797461822628975,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0004",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.9476486593484879,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0005",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 2.185327932238579,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0006",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 1.7194664105772972,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0007",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 6.931258365511894,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0008",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 1.622379757463932,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0009",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 2.8986549004912376,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0010",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 1.8455255776643753,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0011",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 2.2810082882642746,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0012",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 1.0668514296412468,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "synth_0001",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.18322467803955078,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0002",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 1.4071110635995865,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0003",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 1.3616252690553665,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0004",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.29949285089969635,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0005",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.217510387301445,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0006",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.05320832133293152,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0007",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.32037682831287384,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0008",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.047120265662670135,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0009",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.052957795560359955,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0010",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.057705678045749664,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0011",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.13028085231781006,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0012",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.053522177040576935,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "synth_0001",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.013441778719425201,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0002",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.008516944944858551,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0003",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.00895187258720398,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0004",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.007385388016700745,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0005",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.18974393606185913,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0006",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.005906447768211365,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0007",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.0074356794357299805,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0008",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.0069551169872283936,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0009",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.006370246410369873,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0010",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.0076945871114730835,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0011",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.006761401891708374,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0012",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.006416812539100647,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "synth_0001",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.938824917558037,
+      "exact_match": 1.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0002",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9270799565539356,
+      "exact_match": 1.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0003",
+      "cer": 0.013157894736842105,
+      "sub_rate": 0.0,
+      "del_rate": 0.013157894736842105,
+      "ins_rate": 0.0,
+      "char_recall": 0.9868421052631579,
+      "line_precision": 0.8333333333333334,
+      "line_recall": 0.8333333333333334,
+      "line_f1": 0.8333333333333334,
+      "box_iou_mean": 0.7978896255414165,
+      "exact_match": 0.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0004",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9632825648127183,
+      "exact_match": 1.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0005",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.8931217959947277,
+      "exact_match": 1.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0006",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9355009705414331,
+      "exact_match": 1.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0007",
+      "cer": 0.02,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.02,
+      "char_recall": 1.0,
+      "line_precision": 0.5,
+      "line_recall": 0.6666666666666666,
+      "line_f1": 0.5714285714285715,
+      "box_iou_mean": 0.5915344243382056,
+      "exact_match": 0.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0008",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.953169339643647,
+      "exact_match": 1.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0009",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9272236306802011,
+      "exact_match": 1.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0010",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.920067302732663,
+      "exact_match": 1.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0011",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9276208021254024,
+      "exact_match": 1.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0012",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9203609819446085,
+      "exact_match": 1.0,
+      "latency_ms": 0.0,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "synth_0001",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.147257000207901,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "synth_0002",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.9839143604040146,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "synth_0003",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.2405121922492981,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "synth_0004",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.3603994846343994,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "synth_0005",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.4616919904947281,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "synth_0006",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.1927800476551056,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "synth_0007",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.2444349229335785,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "synth_0008",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.2095010131597519,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "synth_0009",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.26205554604530334,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "synth_0010",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.3950921818614006,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "synth_0011",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.17427094280719757,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "synth_0012",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.36089587956666946,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    }
+  ]
+}

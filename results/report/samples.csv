@@ -1,0 +1,193 @@
+﻿样本ID,场景,引擎,是否有GT,是否成功,错误信息,CER,错认率,漏提率,多提率,完整率,行级F1,定位IoU,完全匹配,GT字符数,预测字符数,漏提字数,多提字数,错认字数,编辑距离,延迟ms,成本USD,GT文本,预测文本,GT_diff视图,预测_diff视图
+synth_0001,合成,rapidocr,是,是,,0.0,0.0,0.0,0.0,1.0,1.0,0.9388,1.0,62,62,0,0,0,0,2017.24,0.0,结算方式：月结30天⏎银行账号：6222 0202 0011 2233⏎纳税人识别号：91110108MA01B2C34D⏎检验员：钱七,结算方式：月结30天⏎银行账号：6222020200112233⏎纳税人识别号：91110108MA01B2C34D⏎检验员：钱七,结算方式:月结30天银行账号:6222020200112233纳税人识别号:91110108MA01B2C34D检验员:钱七,结算方式:月结30天银行账号:6222020200112233纳税人识别号:91110108MA01B2C34D检验员:钱七
+synth_0001,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,3.35,0.0,结算方式：月结30天⏎银行账号：6222 0202 0011 2233⏎纳税人识别号：91110108MA01B2C34D⏎检验员：钱七,,,
+synth_0001,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.16,0.0,结算方式：月结30天⏎银行账号：6222 0202 0011 2233⏎纳税人识别号：91110108MA01B2C34D⏎检验员：钱七,,,
+synth_0001,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,结算方式：月结30天⏎银行账号：6222 0202 0011 2233⏎纳税人识别号：91110108MA01B2C34D⏎检验员：钱七,,,
+synth_0001,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.11,0.0,结算方式：月结30天⏎银行账号：6222 0202 0011 2233⏎纳税人识别号：91110108MA01B2C34D⏎检验员：钱七,,,
+synth_0002,合成,rapidocr,是,是,,0.0,0.0,0.0,0.0,1.0,1.0,0.9271,1.0,51,51,0,0,0,0,1778.74,0.0,银行账号：6222 0202 0011 2233⏎备注：货到验收合格后付款⏎邮政编码：100080⏎序号：0042,银行账号：6222020200112233⏎备注：货到验收合格后付款⏎邮政编码：100080⏎序号：0042,银行账号:6222020200112233备注:货到验收合格后付款邮政编码:100080序号:0042,银行账号:6222020200112233备注:货到验收合格后付款邮政编码:100080序号:0042
+synth_0002,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,2.57,0.0,银行账号：6222 0202 0011 2233⏎备注：货到验收合格后付款⏎邮政编码：100080⏎序号：0042,,,
+synth_0002,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.68,0.0,银行账号：6222 0202 0011 2233⏎备注：货到验收合格后付款⏎邮政编码：100080⏎序号：0042,,,
+synth_0002,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,银行账号：6222 0202 0011 2233⏎备注：货到验收合格后付款⏎邮政编码：100080⏎序号：0042,,,
+synth_0002,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.11,0.0,银行账号：6222 0202 0011 2233⏎备注：货到验收合格后付款⏎邮政编码：100080⏎序号：0042,,,
+synth_0003,合成,rapidocr,是,是,,0.0132,0.0,0.0132,0.0,0.9868,0.8333,0.7979,0.0,76,75,1,0,0,1,1135.29,0.0,"数量：120件⏎联系电话：138-0000-1111⏎合同编号：HT-2024-0091⏎金额小写：￥38,400.00⏎检验员：钱七⏎发票号码：12345678",数量：120件⏎联系电话：138-0000-1111⏎合同编号：HT-2024-0091⏎金额小写：￥38400.00⏎检验员：钱七⏎发票号码：12345678,"数量:120件联系电话:138-0000-1111合同编号:HT-2024-0091金额小写:¥38〔-,〕400.00检验员:钱七发票号码:12345678",数量:120件联系电话:138-0000-1111合同编号:HT-2024-0091金额小写:¥38400.00检验员:钱七发票号码:12345678
+synth_0003,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,2.98,0.0,"数量：120件⏎联系电话：138-0000-1111⏎合同编号：HT-2024-0091⏎金额小写：￥38,400.00⏎检验员：钱七⏎发票号码：12345678",,,
+synth_0003,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.37,0.0,"数量：120件⏎联系电话：138-0000-1111⏎合同编号：HT-2024-0091⏎金额小写：￥38,400.00⏎检验员：钱七⏎发票号码：12345678",,,
+synth_0003,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,"数量：120件⏎联系电话：138-0000-1111⏎合同编号：HT-2024-0091⏎金额小写：￥38,400.00⏎检验员：钱七⏎发票号码：12345678",,,
+synth_0003,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.2,0.0,"数量：120件⏎联系电话：138-0000-1111⏎合同编号：HT-2024-0091⏎金额小写：￥38,400.00⏎检验员：钱七⏎发票号码：12345678",,,
+synth_0004,合成,rapidocr,是,是,,0.0,0.0,0.0,0.0,1.0,1.0,0.9633,1.0,50,50,0,0,0,0,1713.63,0.0,产品名称：智能语音识别模块⏎运输方式：公路运输⏎产品名称：智能语音识别模块⏎乙方：上海示例信息技术有限公司,产品名称：智能语音识别模块⏎运输方式：公路运输⏎产品名称：智能语音识别模块⏎乙方：上海示例信息技术有限公司,产品名称:智能语音识别模块运输方式:公路运输产品名称:智能语音识别模块乙方:上海示例信息技术有限公司,产品名称:智能语音识别模块运输方式:公路运输产品名称:智能语音识别模块乙方:上海示例信息技术有限公司
+synth_0004,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,2.75,0.0,产品名称：智能语音识别模块⏎运输方式：公路运输⏎产品名称：智能语音识别模块⏎乙方：上海示例信息技术有限公司,,,
+synth_0004,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.58,0.0,产品名称：智能语音识别模块⏎运输方式：公路运输⏎产品名称：智能语音识别模块⏎乙方：上海示例信息技术有限公司,,,
+synth_0004,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,产品名称：智能语音识别模块⏎运输方式：公路运输⏎产品名称：智能语音识别模块⏎乙方：上海示例信息技术有限公司,,,
+synth_0004,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.12,0.0,产品名称：智能语音识别模块⏎运输方式：公路运输⏎产品名称：智能语音识别模块⏎乙方：上海示例信息技术有限公司,,,
+synth_0005,合成,rapidocr,是,是,,0.0,0.0,0.0,0.0,1.0,1.0,0.8931,1.0,72,72,0,0,0,0,1276.85,0.0,开户银行：中国工商银行北京分行⏎运输方式：公路运输⏎交货日期：2024年6月30日⏎规格型号：VLM-OCR-3000⏎开票日期：2024年05月01日,开户银行：中国工商银行北京分行⏎运输方式：公路运输⏎交货日期：2024年6月30日⏎规格型号：VLM-OCR-3000⏎开票日期：2024年05月01日,开户银行:中国工商银行北京分行运输方式:公路运输交货日期:2024年6月30日规格型号:VLM-OCR-3000开票日期:2024年05月01日,开户银行:中国工商银行北京分行运输方式:公路运输交货日期:2024年6月30日规格型号:VLM-OCR-3000开票日期:2024年05月01日
+synth_0005,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,2.63,0.0,开户银行：中国工商银行北京分行⏎运输方式：公路运输⏎交货日期：2024年6月30日⏎规格型号：VLM-OCR-3000⏎开票日期：2024年05月01日,,,
+synth_0005,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.57,0.0,开户银行：中国工商银行北京分行⏎运输方式：公路运输⏎交货日期：2024年6月30日⏎规格型号：VLM-OCR-3000⏎开票日期：2024年05月01日,,,
+synth_0005,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,开户银行：中国工商银行北京分行⏎运输方式：公路运输⏎交货日期：2024年6月30日⏎规格型号：VLM-OCR-3000⏎开票日期：2024年05月01日,,,
+synth_0005,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.14,0.0,开户银行：中国工商银行北京分行⏎运输方式：公路运输⏎交货日期：2024年6月30日⏎规格型号：VLM-OCR-3000⏎开票日期：2024年05月01日,,,
+synth_0006,合成,rapidocr,是,是,,0.0,0.0,0.0,0.0,1.0,1.0,0.9355,1.0,34,34,0,0,0,0,1405.24,0.0,大写金额：叁万捌仟肆佰元整⏎审核人：王五⏎签发日期：2024年3月15日,大写金额：叁万捌仟肆佰元整⏎审核人：王五⏎签发日期：2024年3月15日,大写金额:叁万捌仟肆佰元整审核人:王五签发日期:2024年3月15日,大写金额:叁万捌仟肆佰元整审核人:王五签发日期:2024年3月15日
+synth_0006,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,2.74,0.0,大写金额：叁万捌仟肆佰元整⏎审核人：王五⏎签发日期：2024年3月15日,,,
+synth_0006,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.08,0.0,大写金额：叁万捌仟肆佰元整⏎审核人：王五⏎签发日期：2024年3月15日,,,
+synth_0006,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,大写金额：叁万捌仟肆佰元整⏎审核人：王五⏎签发日期：2024年3月15日,,,
+synth_0006,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.18,0.0,大写金额：叁万捌仟肆佰元整⏎审核人：王五⏎签发日期：2024年3月15日,,,
+synth_0007,合成,rapidocr,是,是,,0.02,0.0,0.0,0.02,1.0,0.5714,0.5915,0.0,50,51,0,1,0,1,2213.0,0.0,电子邮箱：support@example.com⏎提货地点：上海市浦东新区世纪大道100号⏎批准人：赵六,电子邮箱：s⏎support@example.com⏎提货地点：上海市浦东新区世纪大道100号⏎批准人：赵六,电子邮箱:support@example.com提货地点:上海市浦东新区世纪大道100号批准人:赵六,电子邮箱:〔+s〕support@example.com提货地点:上海市浦东新区世纪大道100号批准人:赵六
+synth_0007,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,3.82,0.0,电子邮箱：support@example.com⏎提货地点：上海市浦东新区世纪大道100号⏎批准人：赵六,,,
+synth_0007,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.07,0.0,电子邮箱：support@example.com⏎提货地点：上海市浦东新区世纪大道100号⏎批准人：赵六,,,
+synth_0007,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,电子邮箱：support@example.com⏎提货地点：上海市浦东新区世纪大道100号⏎批准人：赵六,,,
+synth_0007,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.12,0.0,电子邮箱：support@example.com⏎提货地点：上海市浦东新区世纪大道100号⏎批准人：赵六,,,
+synth_0008,合成,rapidocr,是,是,,0.0,0.0,0.0,0.0,1.0,1.0,0.9532,1.0,61,61,0,0,0,0,1474.9,0.0,乙方：上海示例信息技术有限公司⏎批准人：赵六⏎邮政编码：100080⏎备注：货到验收合格后付款⏎合同编号：HT-2024-0091,乙方：上海示例信息技术有限公司⏎批准人：赵六⏎邮政编码：100080⏎备注：货到验收合格后付款⏎合同编号：HT-2024-0091,乙方:上海示例信息技术有限公司批准人:赵六邮政编码:100080备注:货到验收合格后付款合同编号:HT-2024-0091,乙方:上海示例信息技术有限公司批准人:赵六邮政编码:100080备注:货到验收合格后付款合同编号:HT-2024-0091
+synth_0008,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,0.88,0.0,乙方：上海示例信息技术有限公司⏎批准人：赵六⏎邮政编码：100080⏎备注：货到验收合格后付款⏎合同编号：HT-2024-0091,,,
+synth_0008,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.08,0.0,乙方：上海示例信息技术有限公司⏎批准人：赵六⏎邮政编码：100080⏎备注：货到验收合格后付款⏎合同编号：HT-2024-0091,,,
+synth_0008,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,乙方：上海示例信息技术有限公司⏎批准人：赵六⏎邮政编码：100080⏎备注：货到验收合格后付款⏎合同编号：HT-2024-0091,,,
+synth_0008,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.11,0.0,乙方：上海示例信息技术有限公司⏎批准人：赵六⏎邮政编码：100080⏎备注：货到验收合格后付款⏎合同编号：HT-2024-0091,,,
+synth_0009,合成,rapidocr,是,是,,0.0,0.0,0.0,0.0,1.0,1.0,0.9272,1.0,87,87,0,0,0,0,1928.52,0.0,联系电话：138-0000-1111⏎批准人：赵六⏎发票号码：12345678⏎提货地点：上海市浦东新区世纪大道100号⏎规格型号：VLM-OCR-3000⏎发票号码：12345678,联系电话：138-0000-1111⏎批准人：赵六⏎发票号码：12345678⏎提货地点：上海市浦东新区世纪大道100号⏎规格型号：VLM-OCR-3000⏎发票号码：12345678,联系电话:138-0000-1111批准人:赵六发票号码:12345678提货地点:上海市浦东新区世纪大道100号规格型号:VLM-OCR-3000发票号码:12345678,联系电话:138-0000-1111批准人:赵六发票号码:12345678提货地点:上海市浦东新区世纪大道100号规格型号:VLM-OCR-3000发票号码:12345678
+synth_0009,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,2.36,0.0,联系电话：138-0000-1111⏎批准人：赵六⏎发票号码：12345678⏎提货地点：上海市浦东新区世纪大道100号⏎规格型号：VLM-OCR-3000⏎发票号码：12345678,,,
+synth_0009,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.06,0.0,联系电话：138-0000-1111⏎批准人：赵六⏎发票号码：12345678⏎提货地点：上海市浦东新区世纪大道100号⏎规格型号：VLM-OCR-3000⏎发票号码：12345678,,,
+synth_0009,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,联系电话：138-0000-1111⏎批准人：赵六⏎发票号码：12345678⏎提货地点：上海市浦东新区世纪大道100号⏎规格型号：VLM-OCR-3000⏎发票号码：12345678,,,
+synth_0009,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.15,0.0,联系电话：138-0000-1111⏎批准人：赵六⏎发票号码：12345678⏎提货地点：上海市浦东新区世纪大道100号⏎规格型号：VLM-OCR-3000⏎发票号码：12345678,,,
+synth_0010,合成,rapidocr,是,是,,0.0,0.0,0.0,0.0,1.0,1.0,0.9201,1.0,58,58,0,0,0,0,1461.66,0.0,地址：北京市海淀区中关村大街1号⏎数量：120件⏎开票日期：2024年05月01日⏎发票号码：12345678⏎收款人：张三,地址：北京市海淀区中关村大街1号⏎数量：120件⏎开票日期：2024年05月01日⏎发票号码：12345678⏎收款人：张三,地址:北京市海淀区中关村大街1号数量:120件开票日期:2024年05月01日发票号码:12345678收款人:张三,地址:北京市海淀区中关村大街1号数量:120件开票日期:2024年05月01日发票号码:12345678收款人:张三
+synth_0010,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,1.76,0.0,地址：北京市海淀区中关村大街1号⏎数量：120件⏎开票日期：2024年05月01日⏎发票号码：12345678⏎收款人：张三,,,
+synth_0010,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.06,0.0,地址：北京市海淀区中关村大街1号⏎数量：120件⏎开票日期：2024年05月01日⏎发票号码：12345678⏎收款人：张三,,,
+synth_0010,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,地址：北京市海淀区中关村大街1号⏎数量：120件⏎开票日期：2024年05月01日⏎发票号码：12345678⏎收款人：张三,,,
+synth_0010,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.11,0.0,地址：北京市海淀区中关村大街1号⏎数量：120件⏎开票日期：2024年05月01日⏎发票号码：12345678⏎收款人：张三,,,
+synth_0011,合成,rapidocr,是,是,,0.0,0.0,0.0,0.0,1.0,1.0,0.9276,1.0,35,35,0,0,0,0,927.49,0.0,生产批号：20240312A7⏎数量：120件⏎序号：0042⏎经办人：李四,生产批号：20240312A7⏎数量：120件⏎序号：0042⏎经办人：李四,生产批号:20240312A7数量:120件序号:0042经办人:李四,生产批号:20240312A7数量:120件序号:0042经办人:李四
+synth_0011,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,0.92,0.0,生产批号：20240312A7⏎数量：120件⏎序号：0042⏎经办人：李四,,,
+synth_0011,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.1,0.0,生产批号：20240312A7⏎数量：120件⏎序号：0042⏎经办人：李四,,,
+synth_0011,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,生产批号：20240312A7⏎数量：120件⏎序号：0042⏎经办人：李四,,,
+synth_0011,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.1,0.0,生产批号：20240312A7⏎数量：120件⏎序号：0042⏎经办人：李四,,,
+synth_0012,合成,rapidocr,是,是,,0.0,0.0,0.0,0.0,1.0,1.0,0.9204,1.0,74,74,0,0,0,0,1044.67,0.0,银行账号：6222 0202 0011 2233⏎订购单号：PO-8839201⏎甲方：北京某某科技有限公司⏎产品名称：智能语音识别模块⏎备注：货到验收合格后付款,银行账号：6222020200112233⏎订购单号：PO-8839201⏎甲方：北京某某科技有限公司⏎产品名称：智能语音识别模块⏎备注：货到验收合格后付款,银行账号:6222020200112233订购单号:PO-8839201甲方:北京某某科技有限公司产品名称:智能语音识别模块备注:货到验收合格后付款,银行账号:6222020200112233订购单号:PO-8839201甲方:北京某某科技有限公司产品名称:智能语音识别模块备注:货到验收合格后付款
+synth_0012,合成,local-qwen25vl-3b,是,否,"AdapterHTTPError: vlm.local[ollama:local-qwen25vl-3b]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(""HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused""))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",,,,,,,,,,0,,,,,1.68,0.0,银行账号：6222 0202 0011 2233⏎订购单号：PO-8839201⏎甲方：北京某某科技有限公司⏎产品名称：智能语音识别模块⏎备注：货到验收合格后付款,,,
+synth_0012,合成,paddleocr,是,否,"RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。
+PaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。
+请先安装：
+    uv pip install --python .venv/bin/python paddlepaddle paddleocr
+    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：
+    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1
+    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",,,,,,,,,,0,,,,,0.22,0.0,银行账号：6222 0202 0011 2233⏎订购单号：PO-8839201⏎甲方：北京某某科技有限公司⏎产品名称：智能语音识别模块⏎备注：货到验收合格后付款,,,
+synth_0012,合成,qwen-vl-max,是,否,AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）,,,,,,,,,,0,,,,,0.01,0.0,银行账号：6222 0202 0011 2233⏎订购单号：PO-8839201⏎甲方：北京某某科技有限公司⏎产品名称：智能语音识别模块⏎备注：货到验收合格后付款,,,
+synth_0012,合成,tesseract,是,否,"RuntimeError: 找不到可执行文件 `tesseract`。
+Tesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。
+请先安装：
+    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng
+    # macOS: brew install tesseract tesseract-lang
+    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",,,,,,,,,,0,,,,,0.14,0.0,银行账号：6222 0202 0011 2233⏎订购单号：PO-8839201⏎甲方：北京某某科技有限公司⏎产品名称：智能语音识别模块⏎备注：货到验收合格后付款,,,

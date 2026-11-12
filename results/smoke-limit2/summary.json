@@ -1,0 +1,47 @@
+{
+  "rapidocr": {
+    "samples_total": 2,
+    "samples_ok": 2,
+    "samples_error": 0,
+    "error_rate": 0.0,
+    "cache_hits": 0,
+    "metrics": {
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9478792253397434,
+      "exact_match": 1.0
+    },
+    "latency_ms": {
+      "mean": 1370.8438286557794,
+      "p50": 1370.8438286557794,
+      "p90": 1375.9202310815454,
+      "p99": 1377.0624216273427
+    },
+    "cost": {
+      "mean_usd": 0.0,
+      "per_1000": 0.0
+    },
+    "samples": {
+      "s01": {
+        "cer": 0.0,
+        "char_recall": 1.0,
+        "line_f1": 1.0,
+        "box_iou_mean": 0.9451687358449314,
+        "error": 0.0
+      },
+      "s02": {
+        "cer": 0.0,
+        "char_recall": 1.0,
+        "line_f1": 1.0,
+        "box_iou_mean": 0.9505897148345556,
+        "error": 0.0
+      }
+    }
+  }
+}

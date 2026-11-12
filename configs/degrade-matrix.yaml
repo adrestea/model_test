@@ -1,0 +1,68 @@
+# 多引擎矩阵降级验证：故意混合「可用 / 缺依赖 / 无在线 key」的引擎，
+# 验证单个引擎构建/推理失败不会炸掉整个 run，其余引擎照常出结果。
+#
+# 预期（当前沙箱）：
+#   rapidocr       可用（rapidocr-onnxruntime 已装，纯 CPU 真跑）
+#   tesseract      系统未装 tesseract 可执行文件 -> warmup/推理报错
+#   paddleocr      系统未装 paddlepaddle/paddleocr -> warmup/推理报错
+#   qwen-vl-max    无 DASHSCOPE_API_KEY -> 单样本记录缺 key 错误
+#   gemini         无 GEMINI_API_KEY -> 单样本记录缺 key 错误
+#   local-qwen     无 ollama 服务 -> 单样本记录连接错误
+#
+# 用法：.venv/bin/python cli.py run -c configs/degrade-matrix.yaml --run-name degrade
+run:
+  name: degrade
+  dataset:
+    name: smoke
+    lang: zh
+  tasks: [recognize, vqa]   # OCR 引擎不支持 vqa，用于验证「不支持的组合被显式跳过」
+  concurrency: 3
+  retries: 0            # 缺依赖重试无意义，关掉便于读错误
+  repeats: 1
+  cache: false
+  timeout_s: 20
+  normalize:
+    strip_whitespace: true
+    unify_punct: true
+
+engines:
+  - id: rapidocr
+    type: ocr.rapidocr
+    params: { device: cpu }
+    cost: { per_image: 0 }
+
+  - id: tesseract
+    type: ocr.tesseract
+    params: { lang: chi_sim+eng, psm: 6 }
+    cost: { per_image: 0 }
+
+  - id: paddleocr
+    type: ocr.paddleocr
+    params: { lang: ch, device: cpu, use_angle_cls: true }
+    cost: { per_image: 0 }
+
+  - id: qwen-vl-max
+    type: vlm.openai_compat
+    params:
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      model: qwen-vl-max
+      api_key_env: DASHSCOPE_API_KEY
+      max_tokens: 512
+    cost: { input_per_1m: 3.0, output_per_1m: 9.0 }
+
+  - id: gemini
+    type: vlm.gemini
+    params:
+      model: gemini-2.0-flash
+      api_key_env: GEMINI_API_KEY
+      max_tokens: 512
+    cost: { input_per_1m: 0.1, output_per_1m: 0.4 }
+
+  - id: local-qwen
+    type: vlm.local
+    params:
+      backend: ollama
+      model: qwen2.5vl:3b
+      base_url: http://localhost:11434
+      max_new_tokens: 512
+    cost: { per_image: 0 }

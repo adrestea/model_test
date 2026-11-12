@@ -1,0 +1,120 @@
+{
+  "mock-echo": {
+    "samples_total": 4,
+    "samples_ok": 4,
+    "samples_error": 0,
+    "error_rate": 0.0,
+    "cache_hits": 4,
+    "metrics": {
+      "cer": 0.03632183908045977,
+      "sub_rate": 0.005747126436781609,
+      "del_rate": 0.02482758620689655,
+      "ins_rate": 0.005747126436781609,
+      "char_recall": 0.9694252873563217,
+      "line_precision": 0.625,
+      "line_recall": 0.625,
+      "line_f1": 0.625,
+      "box_iou_mean": 0.5854243166054671,
+      "exact_match": 0.3333333333333333
+    },
+    "latency_ms": {
+      "mean": null,
+      "p50": null,
+      "p90": null,
+      "p99": null
+    },
+    "cost": {
+      "mean_usd": null,
+      "per_1000": null
+    },
+    "samples": {
+      "demo_001": {
+        "cer": 0.0,
+        "char_recall": 1.0,
+        "line_f1": 1.0,
+        "box_iou_mean": 0.9208486332109344,
+        "error": 0.0
+      },
+      "demo_002": {
+        "cer": 0.06896551724137931,
+        "char_recall": 0.9482758620689655,
+        "line_f1": 0.25,
+        "box_iou_mean": 0.25,
+        "error": 0.0
+      },
+      "demo_003": {
+        "cer": 0.04,
+        "char_recall": 0.96,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 0.0
+      },
+      "demo_004": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 0.0
+      }
+    }
+  },
+  "mock-empty": {
+    "samples_total": 4,
+    "samples_ok": 4,
+    "samples_error": 0,
+    "error_rate": 0.0,
+    "cache_hits": 4,
+    "metrics": {
+      "cer": 1.0,
+      "sub_rate": 0.0,
+      "del_rate": 1.0,
+      "ins_rate": 0.0,
+      "char_recall": 0.0,
+      "line_precision": 0.0,
+      "line_recall": 0.0,
+      "line_f1": 0.0,
+      "box_iou_mean": null,
+      "exact_match": 0.0
+    },
+    "latency_ms": {
+      "mean": null,
+      "p50": null,
+      "p90": null,
+      "p99": null
+    },
+    "cost": {
+      "mean_usd": null,
+      "per_1000": null
+    },
+    "samples": {
+      "demo_001": {
+        "cer": 1.0,
+        "char_recall": 0.0,
+        "line_f1": 0.0,
+        "box_iou_mean": null,
+        "error": 0.0
+      },
+      "demo_002": {
+        "cer": 1.0,
+        "char_recall": 0.0,
+        "line_f1": 0.0,
+        "box_iou_mean": null,
+        "error": 0.0
+      },
+      "demo_003": {
+        "cer": 1.0,
+        "char_recall": 0.0,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 0.0
+      },
+      "demo_004": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 0.0
+      }
+    }
+  }
+}

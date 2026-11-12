@@ -1,0 +1,314 @@
+{
+  "gemini": {
+    "samples_total": 6,
+    "samples_ok": 0,
+    "samples_error": 6,
+    "error_rate": 1.0,
+    "cache_hits": 0,
+    "metrics": {
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null
+    },
+    "latency_ms": {
+      "mean": null,
+      "p50": null,
+      "p90": null,
+      "p99": null
+    },
+    "cost": {
+      "mean_usd": null,
+      "per_1000": null
+    },
+    "samples": {
+      "s01": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      },
+      "s02": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      },
+      "s03": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      }
+    }
+  },
+  "local-qwen": {
+    "samples_total": 6,
+    "samples_ok": 0,
+    "samples_error": 6,
+    "error_rate": 1.0,
+    "cache_hits": 0,
+    "metrics": {
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null
+    },
+    "latency_ms": {
+      "mean": null,
+      "p50": null,
+      "p90": null,
+      "p99": null
+    },
+    "cost": {
+      "mean_usd": null,
+      "per_1000": null
+    },
+    "samples": {
+      "s01": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      },
+      "s02": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      },
+      "s03": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      }
+    }
+  },
+  "paddleocr": {
+    "samples_total": 3,
+    "samples_ok": 0,
+    "samples_error": 3,
+    "error_rate": 1.0,
+    "cache_hits": 0,
+    "metrics": {
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null
+    },
+    "latency_ms": {
+      "mean": null,
+      "p50": null,
+      "p90": null,
+      "p99": null
+    },
+    "cost": {
+      "mean_usd": null,
+      "per_1000": null
+    },
+    "samples": {
+      "s01": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      },
+      "s02": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      },
+      "s03": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      }
+    }
+  },
+  "qwen-vl-max": {
+    "samples_total": 6,
+    "samples_ok": 0,
+    "samples_error": 6,
+    "error_rate": 1.0,
+    "cache_hits": 0,
+    "metrics": {
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null
+    },
+    "latency_ms": {
+      "mean": null,
+      "p50": null,
+      "p90": null,
+      "p99": null
+    },
+    "cost": {
+      "mean_usd": null,
+      "per_1000": null
+    },
+    "samples": {
+      "s01": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      },
+      "s02": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      },
+      "s03": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      }
+    }
+  },
+  "rapidocr": {
+    "samples_total": 3,
+    "samples_ok": 3,
+    "samples_error": 0,
+    "error_rate": 0.0,
+    "cache_hits": 0,
+    "metrics": {
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9510847056655085,
+      "exact_match": 1.0
+    },
+    "latency_ms": {
+      "mean": 1710.4520763580997,
+      "p50": 1793.0184891447425,
+      "p90": 1821.1132800206542,
+      "p99": 1827.4346079677343
+    },
+    "cost": {
+      "mean_usd": 0.0,
+      "per_1000": 0.0
+    },
+    "samples": {
+      "s01": {
+        "cer": 0.0,
+        "char_recall": 1.0,
+        "line_f1": 1.0,
+        "box_iou_mean": 0.9451687358449314,
+        "error": 0.0
+      },
+      "s02": {
+        "cer": 0.0,
+        "char_recall": 1.0,
+        "line_f1": 1.0,
+        "box_iou_mean": 0.9505897148345556,
+        "error": 0.0
+      },
+      "s03": {
+        "cer": 0.0,
+        "char_recall": 1.0,
+        "line_f1": 1.0,
+        "box_iou_mean": 0.9574956663170385,
+        "error": 0.0
+      }
+    }
+  },
+  "tesseract": {
+    "samples_total": 3,
+    "samples_ok": 0,
+    "samples_error": 3,
+    "error_rate": 1.0,
+    "cache_hits": 0,
+    "metrics": {
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null
+    },
+    "latency_ms": {
+      "mean": null,
+      "p50": null,
+      "p90": null,
+      "p99": null
+    },
+    "cost": {
+      "mean_usd": null,
+      "per_1000": null
+    },
+    "samples": {
+      "s01": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      },
+      "s02": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      },
+      "s03": {
+        "cer": null,
+        "char_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "error": 1.0
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+﻿场景,引擎,样本数,成功数,CER,完整率,漏提率,多提率,行级F1,平均延迟ms,每千张成本USD,每千张成本CNY
+smoke,rapidocr,3,3,0.0,1.0,0.0,0.0,1.0,1710.45,0.0,0.0
+smoke,gemini,3,0,,,,,,,,
+smoke,local-qwen,3,0,,,,,,,,
+smoke,paddleocr,3,0,,,,,,,,
+smoke,qwen-vl-max,3,0,,,,,,,,
+smoke,tesseract,3,0,,,,,,,,

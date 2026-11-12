@@ -1,0 +1,31 @@
+[project]
+name = "vlm-ocr-eval"
+version = "0.1.0"
+description = "OCR / VLM 图文识别评测与选型系统"
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml", "pillow", "numpy", "pandas", "jinja2",
+    "rich", "click", "jsonschema", "requests",
+]
+
+[project.optional-dependencies]
+ocr = ["rapidocr-onnxruntime", "onnxruntime"]
+vlm-local = ["transformers", "torch", "accelerate"]
+dev = ["pytest", "pytest-cov"]
+
+[project.scripts]
+veval = "cli:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["cli"]
+
+[tool.setuptools.packages.find]
+include = ["core*", "metrics*", "runner*", "adapters*"]
+exclude = ["tests*", "datasets*", "configs*", "results*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: vlm-ocr-eval
+Version: 0.1.0
+Summary: OCR / VLM 图文识别评测与选型系统
+Requires-Python: >=3.10
+Requires-Dist: pyyaml
+Requires-Dist: pillow
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: jinja2
+Requires-Dist: rich
+Requires-Dist: click
+Requires-Dist: jsonschema
+Requires-Dist: requests
+Provides-Extra: ocr
+Requires-Dist: rapidocr-onnxruntime; extra == "ocr"
+Requires-Dist: onnxruntime; extra == "ocr"
+Provides-Extra: vlm-local
+Requires-Dist: transformers; extra == "vlm-local"
+Requires-Dist: torch; extra == "vlm-local"
+Requires-Dist: accelerate; extra == "vlm-local"
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"

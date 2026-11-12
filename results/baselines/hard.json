@@ -1,0 +1,599 @@
+{
+  "version": 1,
+  "created_at": "2026-11-12T14:30:44+00:00",
+  "run_name": "hard",
+  "run_created_at": "2026-11-12T14:29:21+00:00",
+  "source": "results/hard/run.json",
+  "config": {
+    "dataset": {
+      "name": "hard",
+      "modality": "image",
+      "lang": "zh",
+      "media_dir": "datasets/hard/images",
+      "labels_dir": "datasets/hard/labels",
+      "limit": 12,
+      "sample_ids": null
+    },
+    "normalize": {
+      "strip_whitespace": true,
+      "unify_punct": true
+    }
+  },
+  "engines": {
+    "local-qwen25vl-3b": {
+      "samples_total": 12,
+      "samples_ok": 0,
+      "samples_error": 12,
+      "error_rate": 1.0,
+      "cache_hits": 0,
+      "metrics": {
+        "cer": null,
+        "sub_rate": null,
+        "del_rate": null,
+        "ins_rate": null,
+        "char_recall": null,
+        "line_precision": null,
+        "line_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "exact_match": null
+      },
+      "latency_ms": {
+        "mean": null,
+        "p50": null,
+        "p90": null,
+        "p99": null
+      },
+      "cost": {
+        "mean_usd": null,
+        "per_1000": null
+      },
+      "samples": {
+        "synth_0001": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0002": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0003": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0004": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0005": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0006": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0007": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0008": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0009": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0010": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0011": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0012": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        }
+      }
+    },
+    "paddleocr": {
+      "samples_total": 12,
+      "samples_ok": 0,
+      "samples_error": 12,
+      "error_rate": 1.0,
+      "cache_hits": 0,
+      "metrics": {
+        "cer": null,
+        "sub_rate": null,
+        "del_rate": null,
+        "ins_rate": null,
+        "char_recall": null,
+        "line_precision": null,
+        "line_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "exact_match": null
+      },
+      "latency_ms": {
+        "mean": null,
+        "p50": null,
+        "p90": null,
+        "p99": null
+      },
+      "cost": {
+        "mean_usd": null,
+        "per_1000": null
+      },
+      "samples": {
+        "synth_0001": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0002": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0003": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0004": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0005": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0006": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0007": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0008": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0009": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0010": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0011": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0012": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        }
+      }
+    },
+    "qwen-vl-max": {
+      "samples_total": 12,
+      "samples_ok": 0,
+      "samples_error": 12,
+      "error_rate": 1.0,
+      "cache_hits": 0,
+      "metrics": {
+        "cer": null,
+        "sub_rate": null,
+        "del_rate": null,
+        "ins_rate": null,
+        "char_recall": null,
+        "line_precision": null,
+        "line_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "exact_match": null
+      },
+      "latency_ms": {
+        "mean": null,
+        "p50": null,
+        "p90": null,
+        "p99": null
+      },
+      "cost": {
+        "mean_usd": null,
+        "per_1000": null
+      },
+      "samples": {
+        "synth_0001": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0002": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0003": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0004": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0005": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0006": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0007": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0008": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0009": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0010": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0011": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0012": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        }
+      }
+    },
+    "rapidocr": {
+      "samples_total": 12,
+      "samples_ok": 12,
+      "samples_error": 0,
+      "error_rate": 0.0,
+      "cache_hits": 0,
+      "metrics": {
+        "cer": 0.0027631578947368424,
+        "sub_rate": 0.0,
+        "del_rate": 0.0010964912280701754,
+        "ins_rate": 0.0016666666666666668,
+        "char_recall": 0.9989035087719298,
+        "line_precision": 0.9444444444444445,
+        "line_recall": 0.9583333333333334,
+        "line_f1": 0.9503968253968255,
+        "box_iou_mean": 0.8913063593722496,
+        "exact_match": 0.8333333333333334
+      },
+      "latency_ms": {
+        "mean": 1531.4364123623818,
+        "p50": 1468.2769044302404,
+        "p90": 2008.3686265163124,
+        "p99": 2191.4674646034837
+      },
+      "cost": {
+        "mean_usd": 0.0,
+        "per_1000": 0.0
+      },
+      "samples": {
+        "synth_0001": {
+          "cer": 0.0,
+          "char_recall": 1.0,
+          "line_f1": 1.0,
+          "box_iou_mean": 0.938824917558037,
+          "error": 0.0
+        },
+        "synth_0002": {
+          "cer": 0.0,
+          "char_recall": 1.0,
+          "line_f1": 1.0,
+          "box_iou_mean": 0.9270799565539356,
+          "error": 0.0
+        },
+        "synth_0003": {
+          "cer": 0.013157894736842105,
+          "char_recall": 0.9868421052631579,
+          "line_f1": 0.8333333333333334,
+          "box_iou_mean": 0.7978896255414165,
+          "error": 0.0
+        },
+        "synth_0004": {
+          "cer": 0.0,
+          "char_recall": 1.0,
+          "line_f1": 1.0,
+          "box_iou_mean": 0.9632825648127183,
+          "error": 0.0
+        },
+        "synth_0005": {
+          "cer": 0.0,
+          "char_recall": 1.0,
+          "line_f1": 1.0,
+          "box_iou_mean": 0.8931217959947277,
+          "error": 0.0
+        },
+        "synth_0006": {
+          "cer": 0.0,
+          "char_recall": 1.0,
+          "line_f1": 1.0,
+          "box_iou_mean": 0.9355009705414331,
+          "error": 0.0
+        },
+        "synth_0007": {
+          "cer": 0.02,
+          "char_recall": 1.0,
+          "line_f1": 0.5714285714285715,
+          "box_iou_mean": 0.5915344243382056,
+          "error": 0.0
+        },
+        "synth_0008": {
+          "cer": 0.0,
+          "char_recall": 1.0,
+          "line_f1": 1.0,
+          "box_iou_mean": 0.953169339643647,
+          "error": 0.0
+        },
+        "synth_0009": {
+          "cer": 0.0,
+          "char_recall": 1.0,
+          "line_f1": 1.0,
+          "box_iou_mean": 0.9272236306802011,
+          "error": 0.0
+        },
+        "synth_0010": {
+          "cer": 0.0,
+          "char_recall": 1.0,
+          "line_f1": 1.0,
+          "box_iou_mean": 0.920067302732663,
+          "error": 0.0
+        },
+        "synth_0011": {
+          "cer": 0.0,
+          "char_recall": 1.0,
+          "line_f1": 1.0,
+          "box_iou_mean": 0.9276208021254024,
+          "error": 0.0
+        },
+        "synth_0012": {
+          "cer": 0.0,
+          "char_recall": 1.0,
+          "line_f1": 1.0,
+          "box_iou_mean": 0.9203609819446085,
+          "error": 0.0
+        }
+      }
+    },
+    "tesseract": {
+      "samples_total": 12,
+      "samples_ok": 0,
+      "samples_error": 12,
+      "error_rate": 1.0,
+      "cache_hits": 0,
+      "metrics": {
+        "cer": null,
+        "sub_rate": null,
+        "del_rate": null,
+        "ins_rate": null,
+        "char_recall": null,
+        "line_precision": null,
+        "line_recall": null,
+        "line_f1": null,
+        "box_iou_mean": null,
+        "exact_match": null
+      },
+      "latency_ms": {
+        "mean": null,
+        "p50": null,
+        "p90": null,
+        "p99": null
+      },
+      "cost": {
+        "mean_usd": null,
+        "per_1000": null
+      },
+      "samples": {
+        "synth_0001": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0002": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0003": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0004": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0005": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0006": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0007": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0008": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0009": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0010": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0011": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        },
+        "synth_0012": {
+          "cer": null,
+          "char_recall": null,
+          "line_f1": null,
+          "box_iou_mean": null,
+          "error": 1.0
+        }
+      }
+    }
+  }
+}

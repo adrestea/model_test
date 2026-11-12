@@ -1,0 +1,1786 @@
+{
+  "run_name": "degrade",
+  "created_at": "2026-11-12T07:51:10+00:00",
+  "config": {
+    "run_name": "degrade",
+    "dataset": {
+      "name": "smoke",
+      "modality": "image",
+      "lang": "zh",
+      "media_dir": "datasets/smoke/images",
+      "labels_dir": "datasets/smoke/labels",
+      "limit": null,
+      "sample_ids": null
+    },
+    "tasks": [
+      "recognize",
+      "vqa"
+    ],
+    "concurrency": 3,
+    "retries": 0,
+    "repeats": 1,
+    "cache": false,
+    "timeout_s": 20.0,
+    "normalize": {
+      "strip_whitespace": true,
+      "unify_punct": true
+    },
+    "strict": false,
+    "engines": [
+      {
+        "id": "rapidocr",
+        "type": "ocr.rapidocr",
+        "params": {
+          "device": "cpu"
+        },
+        "cost": {
+          "per_image": 0
+        }
+      },
+      {
+        "id": "tesseract",
+        "type": "ocr.tesseract",
+        "params": {
+          "lang": "chi_sim+eng",
+          "psm": 6
+        },
+        "cost": {
+          "per_image": 0
+        }
+      },
+      {
+        "id": "paddleocr",
+        "type": "ocr.paddleocr",
+        "params": {
+          "lang": "ch",
+          "device": "cpu",
+          "use_angle_cls": true
+        },
+        "cost": {
+          "per_image": 0
+        }
+      },
+      {
+        "id": "qwen-vl-max",
+        "type": "vlm.openai_compat",
+        "params": {
+          "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+          "model": "qwen-vl-max",
+          "api_key_env": "***",
+          "max_tokens": "***"
+        },
+        "cost": {
+          "input_per_1m": 3.0,
+          "output_per_1m": 9.0
+        }
+      },
+      {
+        "id": "gemini",
+        "type": "vlm.gemini",
+        "params": {
+          "model": "gemini-2.0-flash",
+          "api_key_env": "***",
+          "max_tokens": "***"
+        },
+        "cost": {
+          "input_per_1m": 0.1,
+          "output_per_1m": 0.4
+        }
+      },
+      {
+        "id": "local-qwen",
+        "type": "vlm.local",
+        "params": {
+          "backend": "ollama",
+          "model": "qwen2.5vl:3b",
+          "base_url": "http://localhost:11434",
+          "max_new_tokens": "***"
+        },
+        "cost": {
+          "per_image": 0
+        }
+      }
+    ]
+  },
+  "env": {
+    "python": "3.10.12",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "cwd": "/home/archermind/workspace/ai-stack/model_test",
+    "duration_s": 2.166,
+    "requested_jobs": 27,
+    "engine_build_errors": [
+      {
+        "engine": "tesseract",
+        "error": "warmup 失败 RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+      },
+      {
+        "engine": "paddleocr",
+        "error": "warmup 失败 RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+      }
+    ],
+    "skipped": {
+      "count": 3,
+      "reasons": {
+        "任务不支持：engine capabilities=['recognize', 'lines', 'boxes']": 3
+      },
+      "examples": [
+        {
+          "engine": "rapidocr",
+          "task": "vqa",
+          "reason": "任务不支持：engine capabilities=['recognize', 'lines', 'boxes']"
+        },
+        {
+          "engine": "tesseract",
+          "task": "vqa",
+          "reason": "任务不支持：engine capabilities=['recognize', 'lines', 'boxes']"
+        },
+        {
+          "engine": "paddleocr",
+          "task": "vqa",
+          "reason": "任务不支持：engine capabilities=['recognize', 'lines', 'boxes']"
+        }
+      ]
+    }
+  },
+  "samples": [
+    "s01",
+    "s02",
+    "s03"
+  ],
+  "predictions": [
+    {
+      "engine_id": "gemini",
+      "sample_id": "s01",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.03,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.gemini",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "gemini",
+      "sample_id": "s01",
+      "task": "vqa",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.gemini",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "gemini",
+      "sample_id": "s02",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.gemini",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "gemini",
+      "sample_id": "s02",
+      "task": "vqa",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.gemini",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "gemini",
+      "sample_id": "s03",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.gemini",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "gemini",
+      "sample_id": "s03",
+      "task": "vqa",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.gemini",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen",
+      "sample_id": "s01",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 32.9,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen",
+      "sample_id": "s01",
+      "task": "vqa",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 2.47,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen",
+      "sample_id": "s02",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 34.45,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen",
+      "sample_id": "s02",
+      "task": "vqa",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 1.19,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen",
+      "sample_id": "s03",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 33.08,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "local-qwen",
+      "sample_id": "s03",
+      "task": "vqa",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 2.38,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "vlm.local",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "backend": "ollama",
+        "device_requested": "auto",
+        "attempts": [
+          "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "s01",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.11,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "s02",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.78,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "paddleocr",
+      "sample_id": "s03",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.19,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.paddleocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "s01",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "s01",
+      "task": "vqa",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "s02",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "s02",
+      "task": "vqa",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "s03",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "qwen-vl-max",
+      "sample_id": "s03",
+      "task": "vqa",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.01,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）",
+      "raw": null,
+      "meta": {
+        "device": "remote",
+        "type": "vlm.openai_compat",
+        "capabilities": [
+          "recognize",
+          "vqa",
+          "extract"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "s01",
+      "task": "recognize",
+      "modality": "image",
+      "text": "发票号码：12345678\n开票日期：2024年05月01日\n合计金额：￥1,234.00",
+      "lines": [
+        {
+          "text": "发票号码：12345678",
+          "box": [
+            47.0,
+            51.0,
+            366.0,
+            84.0
+          ],
+          "score": 0.9997105690149161,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "开票日期：2024年05月01日",
+          "box": [
+            46.0,
+            108.0,
+            464.0,
+            141.0
+          ],
+          "score": 0.9997893422842026,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "合计金额：￥1,234.00",
+          "box": [
+            47.0,
+            162.0,
+            381.0,
+            198.0
+          ],
+          "score": 0.9799951016902924,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 1793.02,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              47.0,
+              51.0
+            ],
+            [
+              366.0,
+              51.0
+            ],
+            [
+              366.0,
+              84.0
+            ],
+            [
+              47.0,
+              84.0
+            ]
+          ],
+          "发票号码：12345678",
+          0.9997105690149161
+        ],
+        [
+          [
+            [
+              46.0,
+              108.0
+            ],
+            [
+              464.0,
+              108.0
+            ],
+            [
+              464.0,
+              141.0
+            ],
+            [
+              46.0,
+              141.0
+            ]
+          ],
+          "开票日期：2024年05月01日",
+          0.9997893422842026
+        ],
+        [
+          [
+            [
+              47.0,
+              162.0
+            ],
+            [
+              381.0,
+              164.0
+            ],
+            [
+              381.0,
+              198.0
+            ],
+            [
+              47.0,
+              196.0
+            ]
+          ],
+          "合计金额：￥1,234.00",
+          0.9799951016902924
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          900,
+          258
+        ],
+        "infer_ms": 1786.18,
+        "load_ms": 298.03,
+        "stage_ms": {
+          "det_ms": 1542.68,
+          "cls_ms": 3.25,
+          "rec_ms": 234.27
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1793.02
+        ]
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "s02",
+      "task": "recognize",
+      "modality": "image",
+      "text": "合同编号HT-2024-0091\n甲方：北京某某科技有限公司\n乙方：上海示例信息技术有限公司",
+      "lines": [
+        {
+          "text": "合同编号HT-2024-0091",
+          "box": [
+            47.0,
+            51.0,
+            405.0,
+            84.0
+          ],
+          "score": 0.9993364624679089,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "甲方：北京某某科技有限公司",
+          "box": [
+            49.0,
+            108.0,
+            484.0,
+            140.0
+          ],
+          "score": 0.9952371028753427,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "乙方：上海示例信息技术有限公司",
+          "box": [
+            47.0,
+            163.0,
+            553.0,
+            196.0
+          ],
+          "score": 0.9995346546173096,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 1828.14,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              47.0,
+              51.0
+            ],
+            [
+              405.0,
+              51.0
+            ],
+            [
+              405.0,
+              84.0
+            ],
+            [
+              47.0,
+              84.0
+            ]
+          ],
+          "合同编号HT-2024-0091",
+          0.9993364624679089
+        ],
+        [
+          [
+            [
+              49.0,
+              108.0
+            ],
+            [
+              484.0,
+              108.0
+            ],
+            [
+              484.0,
+              140.0
+            ],
+            [
+              49.0,
+              140.0
+            ]
+          ],
+          "甲方：北京某某科技有限公司",
+          0.9952371028753427
+        ],
+        [
+          [
+            [
+              47.0,
+              163.0
+            ],
+            [
+              553.0,
+              163.0
+            ],
+            [
+              553.0,
+              196.0
+            ],
+            [
+              47.0,
+              196.0
+            ]
+          ],
+          "乙方：上海示例信息技术有限公司",
+          0.9995346546173096
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          900,
+          258
+        ],
+        "infer_ms": 1820.46,
+        "load_ms": 298.03,
+        "stage_ms": {
+          "det_ms": 1450.7,
+          "cls_ms": 2.74,
+          "rec_ms": 361.8
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1828.14
+        ]
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "s03",
+      "task": "recognize",
+      "modality": "image",
+      "text": "收货人：张三\n联系电话：138-0000-1111\n地址：北京市海淀区中关村大街1号",
+      "lines": [
+        {
+          "text": "收货人：张三",
+          "box": [
+            47.0,
+            50.0,
+            249.0,
+            86.0
+          ],
+          "score": 0.9998974204063416,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "联系电话：138-0000-1111",
+          "box": [
+            45.0,
+            107.0,
+            445.0,
+            141.0
+          ],
+          "score": 0.9997792972458733,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "地址：北京市海淀区中关村大街1号",
+          "box": [
+            45.0,
+            162.0,
+            572.0,
+            196.0
+          ],
+          "score": 0.999588631093502,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 1510.2,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              47.0,
+              50.0
+            ],
+            [
+              249.0,
+              51.0
+            ],
+            [
+              248.0,
+              86.0
+            ],
+            [
+              47.0,
+              85.0
+            ]
+          ],
+          "收货人：张三",
+          0.9998974204063416
+        ],
+        [
+          [
+            [
+              45.0,
+              107.0
+            ],
+            [
+              445.0,
+              107.0
+            ],
+            [
+              445.0,
+              141.0
+            ],
+            [
+              45.0,
+              141.0
+            ]
+          ],
+          "联系电话：138-0000-1111",
+          0.9997792972458733
+        ],
+        [
+          [
+            [
+              45.0,
+              162.0
+            ],
+            [
+              572.0,
+              164.0
+            ],
+            [
+              572.0,
+              196.0
+            ],
+            [
+              45.0,
+              195.0
+            ]
+          ],
+          "地址：北京市海淀区中关村大街1号",
+          0.999588631093502
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          900,
+          258
+        ],
+        "infer_ms": 1506.66,
+        "load_ms": 298.03,
+        "stage_ms": {
+          "det_ms": 1184.73,
+          "cls_ms": 3.72,
+          "rec_ms": 306.63
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1510.2
+        ]
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "s01",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.17,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "s02",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.09,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    },
+    {
+      "engine_id": "tesseract",
+      "sample_id": "s03",
+      "task": "recognize",
+      "modality": "image",
+      "text": "",
+      "lines": null,
+      "fields": null,
+      "latency_ms": 0.07,
+      "cost_usd": 0.0,
+      "usage": {},
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract",
+      "raw": null,
+      "meta": {
+        "device": "cpu",
+        "type": "ocr.tesseract",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "attempts": [
+          "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+        ],
+        "attempt_count": 1,
+        "repeats": 1
+      }
+    }
+  ],
+  "metrics": [
+    {
+      "sample_id": "s01",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.02542976289987564,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s01",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.007722526788711548,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s02",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.01239776611328125,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s02",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.008818693459033966,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s03",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.010700896382331848,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s03",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.010275281965732574,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.gemini[gemini]: 缺少 API Key，未设置环境变量 GEMINI_API_KEY。请先执行 `export GEMINI_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s01",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 32.90066588670015,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "s01",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 2.4671368300914764,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "s02",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 34.44888722151518,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "s02",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 1.1857543140649796,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "s03",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 33.07801578193903,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "s03",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 2.3814942687749863,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.local[ollama:local-qwen]: 无法连接 http://localhost:11434/api/chat（ConnectionError: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/chat (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [Errno 111] Connection refused\"))）。请检查 base_url / 网络；本地 ollama 需先 `ollama serve`，本地 OpenAI 兼容服务需确认端口已启动。"
+    },
+    {
+      "sample_id": "s01",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.11113472282886505,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "s02",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.7767146453261375,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "s03",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.18879398703575134,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 缺少依赖 paddleocr（ModuleNotFoundError: No module named 'paddleocr'）。\nPaddleOCR 依赖 paddlepaddle 深度学习框架，本 adapter 不引入 torch。\n请先安装：\n    uv pip install --python .venv/bin/python paddlepaddle paddleocr\n    # 注意：paddlepaddle 轮子较大（数百 MB），无 GPU 时装 CPU 版：\n    # uv pip install --python .venv/bin/python paddlepaddle==2.6.2 paddleocr==2.9.1\n    # 首次识别会自动下载 PP-OCR 模型到 ~/.paddleocr/"
+    },
+    {
+      "sample_id": "s01",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.007272697985172272,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s01",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.005234964191913605,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s02",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.013124197721481323,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s02",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.007295981049537659,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s03",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.00896397978067398,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s03",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.006970949470996857,
+      "cost_usd": 0.0,
+      "error": "AdapterHTTPError: vlm.openai_compat[qwen-vl-max]: 缺少 API Key，未设置环境变量 DASHSCOPE_API_KEY。请先执行 `export DASHSCOPE_API_KEY=<your-key>`，或把 params.api_key_env 指向已存在的环境变量名。（adapter 不会读取硬编码密钥，也不会打印密钥内容）"
+    },
+    {
+      "sample_id": "s01",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9451687358449314,
+      "exact_match": 1.0,
+      "latency_ms": 1793.0184891447425,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "s02",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9505897148345556,
+      "exact_match": 1.0,
+      "latency_ms": 1828.1369777396321,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "s03",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9574956663170385,
+      "exact_match": 1.0,
+      "latency_ms": 1510.2007621899247,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "s01",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.16786251217126846,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "s02",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.09473413228988647,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    },
+    {
+      "sample_id": "s03",
+      "cer": null,
+      "sub_rate": null,
+      "del_rate": null,
+      "ins_rate": null,
+      "char_recall": null,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "box_iou_mean": null,
+      "exact_match": null,
+      "latency_ms": 0.071709044277668,
+      "cost_usd": 0.0,
+      "error": "RuntimeError: 找不到可执行文件 `tesseract`。\nTesseract 是本地 OCR 引擎，需要系统级可执行文件 + 中文语言包。\n请先安装：\n    sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng\n    # macOS: brew install tesseract tesseract-lang\n    # 仅需 Python 封装（可选）：uv pip install --python .venv/bin/python pytesseract"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+﻿引擎,类型,单张成本USD,每千张成本USD,每千张成本CNY,每千分钟成本USD,每千分钟成本CNY,吞吐_张每分钟,完整率,每提升1pp成本USD每千张,帕累托前沿,汇率USD_CNY,备注
+rapidocr,ocr.rapidocr,0.0,0.0,0.0,0.0,0.0,35.08,1.0,,是,7.2,
+gemini,vlm.gemini,,,,,,,,,否,7.2,"3 个样本失败（s01, s02, s03…）"
+local-qwen,vlm.local,,,,,,,,,否,7.2,"3 个样本失败（s01, s02, s03…）"
+paddleocr,ocr.paddleocr,,,,,,,,,否,7.2,"3 个样本失败（s01, s02, s03…）"
+qwen-vl-max,vlm.openai_compat,,,,,,,,,否,7.2,"3 个样本失败（s01, s02, s03…）"
+tesseract,ocr.tesseract,,,,,,,,,否,7.2,"3 个样本失败（s01, s02, s03…）"

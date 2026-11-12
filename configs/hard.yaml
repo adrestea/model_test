@@ -1,0 +1,34 @@
+run:
+  name: hard
+  dataset:
+    name: hard
+    lang: zh
+    limit: 12
+  tasks: [recognize]
+  concurrency: 4
+  cache: true
+  normalize: { strip_whitespace: true, unify_punct: true }
+engines:
+  - id: rapidocr
+    type: ocr.rapidocr
+    params: { device: cpu }
+    cost: { per_image: 0 }
+  - id: tesseract
+    type: ocr.tesseract
+    params: { lang: chi_sim+eng, psm: 6 }
+    cost: { per_image: 0 }
+  - id: paddleocr
+    type: ocr.paddleocr
+    params: { lang: ch }
+    cost: { per_image: 0 }
+  - id: qwen-vl-max
+    type: vlm.openai_compat
+    params:
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      model: qwen-vl-max
+      api_key_env: DASHSCOPE_API_KEY
+    cost: { input_per_1m: 3.0, output_per_1m: 9.0 }
+  - id: local-qwen25vl-3b
+    type: vlm.local
+    params: { backend: ollama, model: "qwen2.5vl:3b", base_url: "http://localhost:11434", device: auto }
+    cost: { per_image: 0 }

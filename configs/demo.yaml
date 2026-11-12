@@ -1,0 +1,33 @@
+# 管线自检矩阵：假引擎 × demo 数据集（纯 CPU，无模型依赖）
+# 用法：veval run -c configs/demo.yaml
+run:
+  name: demo
+  dataset:
+    name: demo
+    lang: zh
+  tasks: [recognize]
+  concurrency: 2
+  retries: 1
+  repeats: 1
+  cache: true
+  timeout_s: 30
+  out_dir: results
+  normalize:
+    strip_whitespace: true
+    lower: false
+    unify_punct: true
+    drop_punct: false
+    box_iou_threshold: 0.5
+
+engines:
+  # 假引擎：从 datasets/demo/mock/ 读取预置输出，仅用于验证指标与管线
+  - id: mock-echo
+    type: mock.text
+    params: { mock_dir: datasets/demo/mock, delay_ms: 5 }
+    cost: { per_image: 0.01 }
+
+  # 假引擎：始终返回空串，作为"完全漏提"的下界对照
+  - id: mock-empty
+    type: mock.text
+    params: { default_text: "", delay_ms: 2 }
+    cost: { per_image: 0.01 }

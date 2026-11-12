@@ -1,0 +1,555 @@
+{
+  "run_name": "smoke-base",
+  "created_at": "2026-11-12T07:52:05+00:00",
+  "config": {
+    "run_name": "smoke-base",
+    "dataset": {
+      "name": "smoke",
+      "modality": "image",
+      "lang": "zh",
+      "media_dir": "datasets/smoke/images",
+      "labels_dir": "datasets/smoke/labels",
+      "limit": null,
+      "sample_ids": null
+    },
+    "tasks": [
+      "recognize"
+    ],
+    "concurrency": 2,
+    "retries": 1,
+    "repeats": 1,
+    "cache": false,
+    "timeout_s": 120.0,
+    "normalize": {
+      "strip_whitespace": true,
+      "unify_punct": true
+    },
+    "strict": false,
+    "engines": [
+      {
+        "id": "rapidocr",
+        "type": "ocr.rapidocr",
+        "params": {
+          "device": "cpu"
+        },
+        "cost": {
+          "per_image": 0
+        }
+      }
+    ]
+  },
+  "env": {
+    "python": "3.10.12",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "cwd": "/home/archermind/workspace/ai-stack/model_test",
+    "duration_s": 2.63,
+    "requested_jobs": 3,
+    "engine_build_errors": [],
+    "skipped": {
+      "count": 0,
+      "reasons": {},
+      "examples": []
+    }
+  },
+  "samples": [
+    "s01",
+    "s02",
+    "s03"
+  ],
+  "predictions": [
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "s01",
+      "task": "recognize",
+      "modality": "image",
+      "text": "发票号码：12345678\n开票日期：2024年05月01日\n合计金额：￥1,234.00",
+      "lines": [
+        {
+          "text": "发票号码：12345678",
+          "box": [
+            47.0,
+            51.0,
+            366.0,
+            84.0
+          ],
+          "score": 0.9997105690149161,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "开票日期：2024年05月01日",
+          "box": [
+            46.0,
+            108.0,
+            464.0,
+            141.0
+          ],
+          "score": 0.9997893422842026,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "合计金额：￥1,234.00",
+          "box": [
+            47.0,
+            162.0,
+            381.0,
+            198.0
+          ],
+          "score": 0.9799951016902924,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 1343.79,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              47.0,
+              51.0
+            ],
+            [
+              366.0,
+              51.0
+            ],
+            [
+              366.0,
+              84.0
+            ],
+            [
+              47.0,
+              84.0
+            ]
+          ],
+          "发票号码：12345678",
+          0.9997105690149161
+        ],
+        [
+          [
+            [
+              46.0,
+              108.0
+            ],
+            [
+              464.0,
+              108.0
+            ],
+            [
+              464.0,
+              141.0
+            ],
+            [
+              46.0,
+              141.0
+            ]
+          ],
+          "开票日期：2024年05月01日",
+          0.9997893422842026
+        ],
+        [
+          [
+            [
+              47.0,
+              162.0
+            ],
+            [
+              381.0,
+              164.0
+            ],
+            [
+              381.0,
+              198.0
+            ],
+            [
+              47.0,
+              196.0
+            ]
+          ],
+          "合计金额：￥1,234.00",
+          0.9799951016902924
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          900,
+          258
+        ],
+        "infer_ms": 1340.02,
+        "load_ms": 275.7,
+        "stage_ms": {
+          "det_ms": 1113.38,
+          "cls_ms": 8.98,
+          "rec_ms": 204.27
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1343.79
+        ]
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "s02",
+      "task": "recognize",
+      "modality": "image",
+      "text": "合同编号HT-2024-0091\n甲方：北京某某科技有限公司\n乙方：上海示例信息技术有限公司",
+      "lines": [
+        {
+          "text": "合同编号HT-2024-0091",
+          "box": [
+            47.0,
+            51.0,
+            405.0,
+            84.0
+          ],
+          "score": 0.9993364624679089,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "甲方：北京某某科技有限公司",
+          "box": [
+            49.0,
+            108.0,
+            484.0,
+            140.0
+          ],
+          "score": 0.9952371028753427,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "乙方：上海示例信息技术有限公司",
+          "box": [
+            47.0,
+            163.0,
+            553.0,
+            196.0
+          ],
+          "score": 0.9995346546173096,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 1395.76,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              47.0,
+              51.0
+            ],
+            [
+              405.0,
+              51.0
+            ],
+            [
+              405.0,
+              84.0
+            ],
+            [
+              47.0,
+              84.0
+            ]
+          ],
+          "合同编号HT-2024-0091",
+          0.9993364624679089
+        ],
+        [
+          [
+            [
+              49.0,
+              108.0
+            ],
+            [
+              484.0,
+              108.0
+            ],
+            [
+              484.0,
+              140.0
+            ],
+            [
+              49.0,
+              140.0
+            ]
+          ],
+          "甲方：北京某某科技有限公司",
+          0.9952371028753427
+        ],
+        [
+          [
+            [
+              47.0,
+              163.0
+            ],
+            [
+              553.0,
+              163.0
+            ],
+            [
+              553.0,
+              196.0
+            ],
+            [
+              47.0,
+              196.0
+            ]
+          ],
+          "乙方：上海示例信息技术有限公司",
+          0.9995346546173096
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          900,
+          258
+        ],
+        "infer_ms": 1392.19,
+        "load_ms": 275.7,
+        "stage_ms": {
+          "det_ms": 1035.99,
+          "cls_ms": 11.87,
+          "rec_ms": 338.98
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1395.76
+        ]
+      }
+    },
+    {
+      "engine_id": "rapidocr",
+      "sample_id": "s03",
+      "task": "recognize",
+      "modality": "image",
+      "text": "收货人：张三\n联系电话：138-0000-1111\n地址：北京市海淀区中关村大街1号",
+      "lines": [
+        {
+          "text": "收货人：张三",
+          "box": [
+            47.0,
+            50.0,
+            249.0,
+            86.0
+          ],
+          "score": 0.9998974204063416,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "联系电话：138-0000-1111",
+          "box": [
+            45.0,
+            107.0,
+            445.0,
+            141.0
+          ],
+          "score": 0.9997792972458733,
+          "start_ms": null,
+          "end_ms": null
+        },
+        {
+          "text": "地址：北京市海淀区中关村大街1号",
+          "box": [
+            45.0,
+            162.0,
+            572.0,
+            196.0
+          ],
+          "score": 0.999588631093502,
+          "start_ms": null,
+          "end_ms": null
+        }
+      ],
+      "fields": null,
+      "latency_ms": 1009.21,
+      "cost_usd": 0.0,
+      "usage": {
+        "images": 1.0
+      },
+      "error": null,
+      "raw": [
+        [
+          [
+            [
+              47.0,
+              50.0
+            ],
+            [
+              249.0,
+              51.0
+            ],
+            [
+              248.0,
+              86.0
+            ],
+            [
+              47.0,
+              85.0
+            ]
+          ],
+          "收货人：张三",
+          0.9998974204063416
+        ],
+        [
+          [
+            [
+              45.0,
+              107.0
+            ],
+            [
+              445.0,
+              107.0
+            ],
+            [
+              445.0,
+              141.0
+            ],
+            [
+              45.0,
+              141.0
+            ]
+          ],
+          "联系电话：138-0000-1111",
+          0.9997792972458733
+        ],
+        [
+          [
+            [
+              45.0,
+              162.0
+            ],
+            [
+              572.0,
+              164.0
+            ],
+            [
+              572.0,
+              196.0
+            ],
+            [
+              45.0,
+              195.0
+            ]
+          ],
+          "地址：北京市海淀区中关村大街1号",
+          0.999588631093502
+        ]
+      ],
+      "meta": {
+        "engine": "rapidocr",
+        "image_size": [
+          900,
+          258
+        ],
+        "infer_ms": 1009.0,
+        "load_ms": 275.7,
+        "stage_ms": {
+          "det_ms": 711.4,
+          "cls_ms": 2.82,
+          "rec_ms": 290.83
+        },
+        "device": "cpu",
+        "type": "ocr.rapidocr",
+        "capabilities": [
+          "recognize",
+          "lines",
+          "boxes"
+        ],
+        "modalities": [
+          "image"
+        ],
+        "repeats": 1,
+        "latency_ms_samples": [
+          1009.21
+        ]
+      }
+    }
+  ],
+  "metrics": [
+    {
+      "sample_id": "s01",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9451687358449314,
+      "exact_match": 1.0,
+      "latency_ms": 1343.7898345291615,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "s02",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9505897148345556,
+      "exact_match": 1.0,
+      "latency_ms": 1395.7599643617868,
+      "cost_usd": 0.0,
+      "error": null
+    },
+    {
+      "sample_id": "s03",
+      "cer": 0.0,
+      "sub_rate": 0.0,
+      "del_rate": 0.0,
+      "ins_rate": 0.0,
+      "char_recall": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "box_iou_mean": 0.9574956663170385,
+      "exact_match": 1.0,
+      "latency_ms": 1009.2135909944773,
+      "cost_usd": 0.0,
+      "error": null
+    }
+  ]
+}

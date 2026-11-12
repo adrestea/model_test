@@ -1,0 +1,16 @@
+lang: zh
+scene: 合成
+source: veval synth（程序合成，非真实扫描）
+license: internal
+generator:
+  tool: veval synth
+  font: /usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc
+  font_size: 32
+  lines: 3-6
+  noise: 8.0
+  blur: 0.8
+  rotate: 1.2
+  jpeg_quality: 60
+  scale: 1.0
+  seed: 7
+  generated_at: '2026-11-12 22:28:22'
