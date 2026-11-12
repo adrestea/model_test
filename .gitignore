@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 虚拟环境
+.venv/
+venv/
+.env
+
+# 运行产物与缓存
+.cache/
+.pytest_cache/
+results/
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+.DS_Store
+
+# Pi agent 本地状态
+.pi/
+
+# 真实业务语料建议不入库（体积/合规）。
+# 仓库内 datasets/demo、smoke、hard 为合成演示数据，体积很小，保留以保证开箱可跑。
+# 若要排除自己放入的真实语料，在 .git/info/exclude 里加一行，例如：
+#   datasets/内部票据/

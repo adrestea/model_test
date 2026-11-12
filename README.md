@@ -316,4 +316,4 @@ OCR/VLM adapter 缺依赖报错、以及新增的 `tests/test_cache_prompt_file.
 - **视频 / 音频模态**：框架预留了 `media_bytes / duration_s / Line.start_ms/end_ms` 与按秒/分钟计费，数据与端到端跑通未验证。
 - **GPU / CUDA 路径**：`device: cuda*` 的映射逻辑在，未真机验证。
 - **`configs/full.yaml` 全量 8 引擎矩阵**：引用的 `datasets/invoice` 语料本机不存在，未整体跑通；等量级验证见 §6 的 degrade 矩阵（用了 `datasets/smoke`）。
-- `label draft/review`、`dataset inspect` 等命令：当前 `cli.py` 未实现这些子命令，仅旧文档提及，**未验证**。
+- `label draft/review`、`dataset inspect`、`synth` 四个子命令已实现并经主控实测（见下节命令记录），但**校正页的人工交互**（浏览器里改字、点下载、拷回）只有静态渲染验证，未做真人操作验证。
