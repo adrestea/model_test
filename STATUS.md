@@ -151,3 +151,34 @@
 - [x] 3 个 worker 因账户 5 小时配额打满（429）中途退出，`tools/`、`report/stats.py` 语法错误、README、baseline 缓存缺陷由主控接手修完并实测
 - [x] `report/stats.py` 中文嵌套引号导致 SyntaxError → 改用「」
 - [x] 6 个已结束 worker 需用 `/team-stop` 清理（操作员动作）
+
+---
+
+## O. macOS arm64 复跑记录（2026-11-13，与 A~/K 的 Linux 记录并存）
+
+> 上文 A~/K 是本项目在 Linux x86_64 + Python 3.10.12 上的原始记录；本段是在
+> `/Users/gaogao/workspace/model_test`（macOS arm64 + Python 3.12.7）上的独立复跑，
+> 两套环境都真实可跑，命令完全一致。
+
+- [x] 环境：`uv venv .venv`（Python 3.12.7）→ `uv pip install -e . pytest rapidocr-onnxruntime onnxruntime`；
+      `.venv` 325MB，项目外只写 `~/.cache/uv`，无 sudo、无系统包
+- [x] 修跨平台缺陷：`tools/synth.py` 原本硬编码 Linux 的 Noto 字体路径，macOS 上 `synth` 与 6 个工具用例全失败；
+      改为 `FONT_CANDIDATES` + `find_default_font()`，本机选中 `/System/Library/Fonts/Hiragino Sans GB.ttc`
+- [x] 回归：修前 6 failed / 135 passed，修后 **141 passed in 3.87s**（与 Linux 3.10.12 的 141 一致）
+- [x] `cli.py run -c configs/smoke.yaml --run-name smoke-mac` → 3/3 成功，CER 0.000，完整率 1.000，
+      行 F1 1.000，定位 IoU 0.951，P50 **354.9ms** / P90 407.6ms（Linux 同配置为 1343.8ms）
+- [x] `cli.py report results/smoke-mac -o results/smoke-mac/report` → 6 个文件，`report.html` 41K，0 外链
+- [x] `cli.py baseline diff results/smoke-mac/run.json results/baselines/smoke-base.json` →
+      全部指标「持平」，P50 显示「变好 -988.9ms」；该差值来自机器，不是引擎变化
+- [x] `cli.py synth --out-root /tmp/synthcheck -n 4 --noise 6 --blur 0.6 --rotate 1.0 --jpeg-quality 70`
+      → 标注覆盖 4/4、像素 box 4 个；rapidocr 跑出 CER 0.004、行 F1 0.787、IoU 0.747
+- [x] 缓存与断点续跑：同配置重跑 4 张 **0.873s → 0.148s**，延迟列显示「缓存命中」
+- [x] `cli.py run -c configs/degrade-matrix.yaml --run-name degrade-mac` → rapidocr 3/3；
+      tesseract 报缺二进制（提示含 `brew install tesseract tesseract-lang`）；paddleocr 报缺依赖；
+      gemini / qwen-vl-max 报缺 key；local-qwen 报 11434 连接被拒；3 个 vqa 组合按能力跳过；run 正常落盘
+- [x] 缓存跨平台有效：`hard` 12 张全部命中 Linux 时期缓存，`env.platform` 记为 `macOS-27.0-arm64-arm-64bit`
+- [x] `cli.py label draft` 3 张草稿 + `cli.py label review` → 63K 校正页，无外链
+- [x] 打包缺陷修复验证：`pyproject.toml` 的 `packages.find.include` 补 `report*`、`tools*` 后，
+      `uv build` 出的 wheel 顶层含 `report/` 与 `tools/`；装进临时 venv 后在 `/tmp` 执行 `veval report` 成功
+- [ ] 本段仍未验证：tesseract / paddleocr / 云 OCR / 在线 VLM / 本地 ollama 的真实识别结果（缺二进制、缺包、缺 key、缺服务）；
+      GPU / CUDA 路径；视频 / 音频模态；`.pdf` 样本实际报错文本

@@ -20,8 +20,30 @@ import numpy as np
 import yaml
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
-# 系统默认中文字体（Noto Sans CJK）；缺失时用户需 --font 指定
-DEFAULT_FONT = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
+# 默认中文字体候选：按顺序取第一个存在的文件，跨 Linux / macOS / Windows。
+# 全部缺失时退回 Linux 的 Noto 路径，让报错信息里带上一个具体的期望路径。
+FONT_CANDIDATES: tuple[str, ...] = (
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+    "/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc",
+    "/usr/share/fonts/opentype/noto/NotoSansCJKsc-Regular.otf",
+    "/System/Library/Fonts/Hiragino Sans GB.ttc",
+    "/System/Library/Fonts/STHeiti Medium.ttc",
+    "/System/Library/Fonts/STHeiti Light.ttc",
+    "/Library/Fonts/Arial Unicode.ttf",
+    "C:/Windows/Fonts/msyh.ttc",
+    "C:/Windows/Fonts/simhei.ttf",
+)
+
+
+def find_default_font() -> str:
+    """返回本机第一个可用的中文字体路径；都不存在时返回候选表第一项。"""
+    for candidate in FONT_CANDIDATES:
+        if Path(candidate).is_file():
+            return candidate
+    return FONT_CANDIDATES[0]
+
+
+DEFAULT_FONT = find_default_font()
 
 # 内置语料：单行业务文本，模拟票据/合同/物流等 OCR 常见内容
 CORPUS: tuple[str, ...] = (

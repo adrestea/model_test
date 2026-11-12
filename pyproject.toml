@@ -24,7 +24,7 @@ build-backend = "setuptools.build_meta"
 py-modules = ["cli"]
 
 [tool.setuptools.packages.find]
-include = ["core*", "metrics*", "runner*", "adapters*"]
+include = ["core*", "metrics*", "runner*", "adapters*", "report*", "tools*"]
 exclude = ["tests*", "datasets*", "configs*", "results*"]
 
 [tool.pytest.ini_options]

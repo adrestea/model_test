@@ -12,13 +12,13 @@
 
 ## 1. 安装
 
-本机已验证环境：Python 3.10 + `.venv`，已安装 `rapidocr-onnxruntime`（真跑通）。
+已验证环境两套，命令相同：Linux x86_64 + Python 3.10.12，macOS arm64 + Python 3.12.7；两套都装了 `rapidocr-onnxruntime` 并真跑通（见 §10、§11）。macOS 上 `tools/synth.py` 会自动挑本机中文字体（Hiragino Sans GB / STHeiti），不依赖 Linux 的 Noto 路径。
 
 ```bash
-# 建虚拟环境（如尚未有 .venv）
-python3.10 -m venv .venv
+# 建虚拟环境（如尚未有 .venv）；Python 版本要求 >= 3.10
+python3 -m venv .venv
 
-# 装依赖（已配阿里云镜像，不要连 pypi.org，会超时）
+# 装依赖（如已配阿里云镜像，pypi.org 也可直连）
 ~/.local/bin/uv pip install --python .venv/bin/python -e .
 ~/.local/bin/uv pip install --python .venv/bin/python pytest pytest-cov
 
@@ -103,9 +103,13 @@ timeout_s / normalize / out_dir / strict`；`engines` 是 `[{id, type, params, c
 
 ## 4. 出报告
 
-报告渲染是 Python API（CLI 目前只有 `run` 与 `baseline` 两个子命令，没有 `report` 子命令）：
+报告有 CLI 子命令，也可以直接调 Python API（`render_all` 只读 `RunResult`，不重新推理）：
 
 ```bash
+# CLI（推荐）
+.venv/bin/python cli.py report results/smoke -o results/smoke/report
+
+# 等价 Python API
 .venv/bin/python - <<'PY'
 from report.render import render_all
 render_all("results/smoke/run.json", "results/smoke/report")
@@ -113,20 +117,21 @@ PY
 ```
 
 输出 6 个文件：`report.html`、`report.md`、`engines.csv`、`samples.csv`、`scenes.csv`、`costs.csv`。
-**本机真实输出**（smoke-base）：
+**本机真实输出**（macOS arm64，run=smoke-mac）：
 
 ```
-=== smoke-base ===
-  costs.csv:  results/smoke-base/report/costs.csv
-  engines.csv: results/smoke-base/report/engines.csv
-  html:        results/smoke-base/report/report.html
-  md:          results/smoke-base/report/report.md
-  samples.csv: results/smoke-base/report/samples.csv
-  scenes.csv:  results/smoke-base/report/scenes.csv
+报告已生成（run=results/smoke-mac → results/smoke-mac/report）：
+  - results/smoke-mac/report/report.html
+  - results/smoke-mac/report/report.md
+  - results/smoke-mac/report/engines.csv
+  - results/smoke-mac/report/samples.csv
+  - results/smoke-mac/report/scenes.csv
+  - results/smoke-mac/report/costs.csv
 ```
 
-`render_all` 第二参是输出目录，第三参可传 `ReportOptions(title=..., sort="cer", rate=7.2, formats=("html","md","csv"))`。
-报告只读 `RunResult`，不重新推理。
+`report` 支持的参数：`-o/--out`、`--formats html,md,csv`、`--title`、`--rate`（USD→CNY，默认 7.2）、
+`--sort`、`--accuracy`、`--max-samples`、`--thumb-px`、`--no-images`。
+`render_all` 第三参也可传 `ReportOptions(title=..., sort="cer", rate=7.2, formats=("html","md","csv"))`。
 
 ---
 
@@ -294,15 +299,15 @@ engines:
 .venv/bin/python -m pytest -q
 ```
 
-**本机真实输出**（本文档交付前）：
+**本机真实输出**（macOS arm64 + Python 3.12.7）：
 
 ```
-122 passed in 9.37s
+141 passed in 3.87s
 ```
 
 覆盖：runner 矩阵/重试/超时/重复/缓存/落盘、baseline freeze/compare/diff、CLI 端到端、
-OCR/VLM adapter 缺依赖报错、以及新增的 `tests/test_cache_prompt_file.py`（改 prompt 文件缓存失效回归）
-与 `tests/test_e2e_report.py`（合成数据 + 真实 smoke 数据集 → run → 报告全链路）。
+OCR/VLM adapter 缺依赖报错、prompt 文件改动缓存失效、报告全链路，以及 `tests/test_tools.py`
+的 synth/inspect/label 工具回归。Linux 3.10.12 上同一套测试也是 141 passed。
 
 ---
 
