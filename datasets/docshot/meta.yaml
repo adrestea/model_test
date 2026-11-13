@@ -1,0 +1,21 @@
+lang: mixed              # 中文为主，夹英文术语/代码标识符
+scene: 文档截图           # 报告按此分组
+source: 屏幕截图（Perfetto+Simpleperf 路线图 Markdown 源码视图，1834x928 / 1836x962）
+license: internal
+hard_cases:
+  - 密集小字
+  - 中英代码混排
+  - 表格线框
+  - Markdown 标记符号
+  - 长行折行
+
+# 标注来源：不是人工转录，也不是被测引擎输出，而是从 .md 原文反推
+# 做法：本地 OCR 读出截图文字 → 在 .md 里定位出这张截图照的是哪几行 → 取那几行的源文本
+# 复现：.venv/bin/python -m tools.md_gt --dataset docshot
+labels:
+  method: markdown-source-span
+  md: markdown/Performance/perfetto-simpleperf-练习路线图.md
+  spans:
+    20261113091044_51_67: 1-39    # 截图可见行范围（含）
+    20261113112745_52_67: 1-35
+  draft_engine: null      # 未用被测引擎做标准答案（labels_draft_rapidocr/ 仅为过程留档）

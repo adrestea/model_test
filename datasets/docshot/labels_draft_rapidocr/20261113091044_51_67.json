@@ -1,0 +1,272 @@
+{
+ "text": "#Perfetto+Simpleperf动手练习路线图（四级Stage·无设备优先）\n>模块定位：Performance/目录下的**跨模块、四级能力阶梯的纵向练习编排**。配套‘tools-perfetto-simpleperf-精通.md`(交付物A)与^perfetto-simpleprof.md`（源参考)。源参考s7粒子vB0 案例数据齐全(IPC.72→1.85、L1D Miss 38.2%→3.1%、\n最大帧时长28ms→7.2ms），是Lv2/Lv3无设备主推演材料。\n##！诚实性前置声明（对齐用户全局规则「未经验证须标注」）\n本路线图基于「**暂无目标设备**」环境。凡需root/真机PMU/TMA/带符号so的练习标待真机;机制/SQL/命令原标**完成但未验证**(解析无误,未实跑)。**Lvo/Lv1/Lv2核心sQL 经v57.2真trace实测跑通**（`actual_frame_timeLine_slice`/\nthread_state／jank→thread_state联合,详见‘未验证清单.md第八节v1-V7;实测发现并已修正c1-C3);**第二轮v57.2实测:EXTRACT_ARG对端／window／cpufreq／android_jank_cuj已验;实测修正c4-C5已回填(详见“未验证清单.md’s八v8-\nV12)**；TMA/PMU/`--trace-offcpu等真机项仍「完成但未验证」。\n」内容类丨验证状态标注」含义丨\n- ---.---.-\n丨机制原理、config字段、SQL 语法、Python API、命令参数丨**部分验证(v57.2真trace SQL 实跑;真机项仍待)**丨Lvo/Lv1/Lv2 核心SQL 经v57.2 实测跑通(见‘未验证清单.md第八节V1-V7);config/Python API/真机命令仍未实跑丨\n丨健康阈值表(IPC/Cache Miss/TMA占比等）丨**诊断起点·待真机校准**丨经验起点值,非硬门槛;因核/频率/制程而异丨\n|原始PMU事件编号（r03/r23/r24.)）、TMAL1/L2公式与系数丨**依A76示例·待真机/TRM复核**丨仅适用Cortex-A76;他核需查对应TRM/PMUguide|\n|TMA 顶层归因能力(Lv3）丨**完成但未验证(只能推演,不能独立归因)**丨无真机时只能复读 57 示例数据;对未知 perf.data 独立L1→L2 下钻需真机丨\n丨simpleperf‘--trace-offcpu`/annotate.py\"/原始r编号采样丨**推演级·待真机**丨需root+带符号so+目标Soc,无设备下连「跑通命令」都做不到丨\n###FrameJankType四分类口径映射表(本路线图ModM3）\n丨本路线图/A丨Mod丨M3丨说明丨\n[------------]\n|Self 丨（并入App）丨 Self|Self≤App;Mod 无self|\n| APP丨APP丨APP 丨ApP 段(含Self）丨\n丨SF丨SF丨SF丨SurfaceFlinger 合成段丨\n丨Display丨Display丨Display丨显示段丨\n丨（并入App/SF）丨Missed丨Missed丨Missed在Mod/M3单列,本路线图简化并入App/SF段丨\n>**口径声明**:本路线图四分类=Self/App/SF/Display;回引 Med/M3 时按此映射对照,**Mod无Self、M3 含Missed,勿直接套用**。**↑v57.2实测（^jank_type^真实枚举,见未验证清单s八v5/c2)**：^jank_type丶列实际是描述性字符串（^AppDeadline\nMissed\"/^SurfaceFlinger CPU Deadline Missed`/^Buffer Stuffing`/^Display HAL\"/^Prediction Error^/`Unknown Jank\"/^None′等,可含逗号组合),非^Self/App/SF/Display’枚举--SQL 用^LIKE‘%关键词%'匹配，='App'/='SF\"命中θ行。对照\n表:App Deadline Missed→App 段;SurfaceFlinger CPU/GPU Deadline/Scheduling→SF 段;Display HAL→Display 段;Buffer Stuffing/Prediction Error/Unknown Jank→其他。真实trace 实测样例分布(本机v57.2,44.8MB):Buffer Stuffing 95/ SF CPU\nDeadline 22 / App Deadline Missed 5 / SF Scheduling 4 / Unknown Jank 3 / Prediction Error 3 / SF GPU Deadline 2 / Display HAL 1o\n##一、与各模块「五Todolist／验证四件套」边界声明\n本路线图=**跨模块、四级能力阶梯的纵向练习编排**(纵向：能力从认红帧到TMA归因逐级上升);各模块「五Todolist／验证四件套」=**单模块知识点横向清单**（横向：覆盖单模块全部知识点)。\n###Stage验收回引对照表",
+ "lines": [
+  {
+   "text": "#Perfetto+Simpleperf动手练习路线图（四级Stage·无设备优先）",
+   "box": [
+    2.0,
+    0.0,
+    507.0,
+    24.0
+   ]
+  },
+  {
+   "text": ">模块定位：Performance/目录下的**跨模块、四级能力阶梯的纵向练习编排**。配套‘tools-perfetto-simpleperf-精通.md`(交付物A)与^perfetto-simpleprof.md`（源参考)。源参考s7粒子vB0 案例数据齐全(IPC.72→1.85、L1D Miss 38.2%→3.1%、",
+   "box": [
+    4.0,
+    39.0,
+    1822.0,
+    64.0
+   ]
+  },
+  {
+   "text": "最大帧时长28ms→7.2ms），是Lv2/Lv3无设备主推演材料。",
+   "box": [
+    6.0,
+    66.0,
+    417.0,
+    85.0
+   ]
+  },
+  {
+   "text": "##！诚实性前置声明（对齐用户全局规则「未经验证须标注」）",
+   "box": [
+    2.0,
+    135.0,
+    456.0,
+    159.0
+   ]
+  },
+  {
+   "text": "本路线图基于「**暂无目标设备**」环境。凡需root/真机PMU/TMA/带符号so的练习标待真机;机制/SQL/命令原标**完成但未验证**(解析无误,未实跑)。**Lvo/Lv1/Lv2核心sQL 经v57.2真trace实测跑通**（`actual_frame_timeLine_slice`/",
+   "box": [
+    4.0,
+    174.0,
+    1779.0,
+    199.0
+   ]
+  },
+  {
+   "text": "thread_state／jank→thread_state联合,详见‘未验证清单.md第八节v1-V7;实测发现并已修正c1-C3);**第二轮v57.2实测:EXTRACT_ARG对端／window／cpufreq／android_jank_cuj已验;实测修正c4-C5已回填(详见“未验证清单.md’s八v8-",
+   "box": [
+    9.0,
+    202.0,
+    1808.0,
+    222.0
+   ]
+  },
+  {
+   "text": "V12)**；TMA/PMU/`--trace-offcpu等真机项仍「完成但未验证」。",
+   "box": [
+    5.0,
+    226.0,
+    479.0,
+    247.0
+   ]
+  },
+  {
+   "text": "」内容类丨验证状态标注」含义丨",
+   "box": [
+    5.0,
+    264.0,
+    266.0,
+    288.0
+   ]
+  },
+  {
+   "text": "- ---.---.-",
+   "box": [
+    161.0,
+    289.0,
+    253.0,
+    303.0
+   ]
+  },
+  {
+   "text": "丨机制原理、config字段、SQL 语法、Python API、命令参数丨**部分验证(v57.2真trace SQL 实跑;真机项仍待)**丨Lvo/Lv1/Lv2 核心SQL 经v57.2 实测跑通(见‘未验证清单.md第八节V1-V7);config/Python API/真机命令仍未实跑丨",
+   "box": [
+    4.0,
+    304.0,
+    1720.0,
+    328.0
+   ]
+  },
+  {
+   "text": "丨健康阈值表(IPC/Cache Miss/TMA占比等）丨**诊断起点·待真机校准**丨经验起点值,非硬门槛;因核/频率/制程而异丨",
+   "box": [
+    4.0,
+    328.0,
+    889.0,
+    352.0
+   ]
+  },
+  {
+   "text": "|原始PMU事件编号（r03/r23/r24.)）、TMAL1/L2公式与系数丨**依A76示例·待真机/TRM复核**丨仅适用Cortex-A76;他核需查对应TRM/PMUguide|",
+   "box": [
+    5.0,
+    353.0,
+    1110.0,
+    376.0
+   ]
+  },
+  {
+   "text": "|TMA 顶层归因能力(Lv3）丨**完成但未验证(只能推演,不能独立归因)**丨无真机时只能复读 57 示例数据;对未知 perf.data 独立L1→L2 下钻需真机丨",
+   "box": [
+    5.0,
+    376.0,
+    1101.0,
+    399.0
+   ]
+  },
+  {
+   "text": "丨simpleperf‘--trace-offcpu`/annotate.py\"/原始r编号采样丨**推演级·待真机**丨需root+带符号so+目标Soc,无设备下连「跑通命令」都做不到丨",
+   "box": [
+    4.0,
+    399.0,
+    1165.0,
+    424.0
+   ]
+  },
+  {
+   "text": "###FrameJankType四分类口径映射表(本路线图ModM3）",
+   "box": [
+    2.0,
+    440.0,
+    458.0,
+    464.0
+   ]
+  },
+  {
+   "text": "丨本路线图/A丨Mod丨M3丨说明丨",
+   "box": [
+    7.0,
+    482.0,
+    264.0,
+    502.0
+   ]
+  },
+  {
+   "text": "[------------]",
+   "box": [
+    8.0,
+    503.0,
+    144.0,
+    520.0
+   ]
+  },
+  {
+   "text": "|Self 丨（并入App）丨 Self|Self≤App;Mod 无self|",
+   "box": [
+    5.0,
+    521.0,
+    416.0,
+    544.0
+   ]
+  },
+  {
+   "text": "| APP丨APP丨APP 丨ApP 段(含Self）丨",
+   "box": [
+    5.0,
+    545.0,
+    300.0,
+    568.0
+   ]
+  },
+  {
+   "text": "丨SF丨SF丨SF丨SurfaceFlinger 合成段丨",
+   "box": [
+    5.0,
+    569.0,
+    328.0,
+    591.0
+   ]
+  },
+  {
+   "text": "丨Display丨Display丨Display丨显示段丨",
+   "box": [
+    5.0,
+    593.0,
+    328.0,
+    615.0
+   ]
+  },
+  {
+   "text": "丨（并入App/SF）丨Missed丨Missed丨Missed在Mod/M3单列,本路线图简化并入App/SF段丨",
+   "box": [
+    6.0,
+    618.0,
+    682.0,
+    638.0
+   ]
+  },
+  {
+   "text": ">**口径声明**:本路线图四分类=Self/App/SF/Display;回引 Med/M3 时按此映射对照,**Mod无Self、M3 含Missed,勿直接套用**。**↑v57.2实测（^jank_type^真实枚举,见未验证清单s八v5/c2)**：^jank_type丶列实际是描述性字符串（^AppDeadline",
+   "box": [
+    5.0,
+    655.0,
+    1833.0,
+    678.0
+   ]
+  },
+  {
+   "text": "Missed\"/^SurfaceFlinger CPU Deadline Missed`/^Buffer Stuffing`/^Display HAL\"/^Prediction Error^/`Unknown Jank\"/^None′等,可含逗号组合),非^Self/App/SF/Display’枚举--SQL 用^LIKE‘%关键词%'匹配，='App'/='SF\"命中θ行。对照",
+   "box": [
+    3.0,
+    680.0,
+    1817.0,
+    703.0
+   ]
+  },
+  {
+   "text": "表:App Deadline Missed→App 段;SurfaceFlinger CPU/GPU Deadline/Scheduling→SF 段;Display HAL→Display 段;Buffer Stuffing/Prediction Error/Unknown Jank→其他。真实trace 实测样例分布(本机v57.2,44.8MB):Buffer Stuffing 95/ SF CPU",
+   "box": [
+    5.0,
+    706.0,
+    1822.0,
+    727.0
+   ]
+  },
+  {
+   "text": "Deadline 22 / App Deadline Missed 5 / SF Scheduling 4 / Unknown Jank 3 / Prediction Error 3 / SF GPU Deadline 2 / Display HAL 1o",
+   "box": [
+    4.0,
+    731.0,
+    1031.0,
+    751.0
+   ]
+  },
+  {
+   "text": "##一、与各模块「五Todolist／验证四件套」边界声明",
+   "box": [
+    4.0,
+    802.0,
+    412.0,
+    822.0
+   ]
+  },
+  {
+   "text": "本路线图=**跨模块、四级能力阶梯的纵向练习编排**(纵向：能力从认红帧到TMA归因逐级上升);各模块「五Todolist／验证四件套」=**单模块知识点横向清单**（横向：覆盖单模块全部知识点)。",
+   "box": [
+    6.0,
+    842.0,
+    1404.0,
+    862.0
+   ]
+  },
+  {
+   "text": "###Stage验收回引对照表",
+   "box": [
+    4.0,
+    922.0,
+    200.0,
+    942.0
+   ]
+  }
+ ],
+ "meta": {
+  "draft": true,
+  "engine": "ocr.rapidocr",
+  "drafted_at": "2026-11-13 11:31:03",
+  "source_image": "20261113091044_51_67.png"
+ }
+}

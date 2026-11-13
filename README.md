@@ -99,6 +99,34 @@ timeout_s / normalize / out_dir / strict`；`engines` 是 `[{id, type, params, c
 - **完整率 = 1 − DEL − SUB**；**行 F1** 按行集合匹配、免疫行序差异；**定位 IoU** 区分「真读到」与「猜对内容但位置乱」。
 - **延迟/成本**：`repeats>1` 才取中位延迟；成本按 `cost` 配置分项累加，本地引擎填 `per_image: 0`。
 
+### 文档截图语料：从 .md 源码反推标注
+
+当语料是「某份 Markdown 的屏幕截图」时（本机 `datasets/docshot` 就是这种），人工转录密集小字又慢又容易错，而真值就在源文件里。`tools/md_gt.py` 干这件事：
+
+```bash
+# 把 .md 放到 datasets/<name>/markdown/ 下，然后（注意用 -m，别用 tools/md_gt.py 直接跑）
+.venv/bin/python -m tools.md_gt --dataset docshot --dry-run   # 只看对齐到的行范围
+.venv/bin/python -m tools.md_gt --dataset docshot             # 写 labels/<stem>.txt
+```
+
+原理：本地 OCR 读出截图文字 → 在 .md 里定位「这张截图照的是第几行到第几行」→ 取那几行的**源文本**做标注。
+OCR 只负责定位，标注内容来自 .md 原文，所以**不会出现「拿被测引擎自己当标准答案」的循环**。
+
+前提与边界：
+- 截图必须是 **Markdown 源码视图**（`#` / `**` / `|` / 反引号可见）。渲染视图会因标记消失而对不上，工具会报覆盖率不足并拒绝写标注，不会静默产出错标注。
+- 浮点敏感性：`strip_whitespace: true` 让折行方式不影响 CER（按字符算，不按行）。
+- 自检列出的「本地 OCR 对照 CER」是**诊断信号**，不是评测结果：落在 2%~20% 属正常；明显 <1% 说明标注其实是引擎自己写的（循环），>30% 说明对齐错了文档。
+
+`datasets/docshot` 的实测（2 张 1834×928 密集小字截图，中文+代码混排）：
+
+```
+引擎      样本  成功  错误率    CER    SUB    DEL    INS  完整率  行F1  定位IoU  P50(ms)  P90(ms)  成本/千
+rapidocr     2     2    0.0%  0.156  0.049  0.107  0.000   0.844     -        -  11319.4  11636.4   0.0000
+```
+
+DEL 占 0.107（远高于 SUB 0.049）：rapidocr 在 Markdown 符号上有系统性漏提——反引号成对丢失、表格对齐行 `|---|---|` 整行没读到、一张图里整段 `jank_type` 文字被跳过；`|` 常被认成 `丨`、`` ` `` 被认成 `^`、`§` 被认成 `s`。
+这类样本比 `datasets/hard`（合成图 CER 0.28%）难一个量级，适合当真实场景的基线。
+
 ---
 
 ## 4. 出报告
@@ -315,7 +343,11 @@ OCR/VLM adapter 缺依赖报错、prompt 文件改动缓存失效、报告全链
 
 以下内容在本机**未真跑**过，文档/代码保留接口与单测覆盖，但未做真实端到端验证：
 
-- **tesseract / paddleocr 真实识别结果**：系统未装二进制/包，无 sudo，只验证过「缺依赖的报错路径」与 TSV/PP-OCR 返回结构解析单测。
+- **tesseract 真实识别结果**：系统未装二进制，无 sudo，只验证过「缺依赖的报错路径」与 TSV 返回结构解析单测。
+- **paddleocr**：已实测**在本机跑不了**——`i7-13700` 无 `avx512f`，`paddlepaddle==2.6.2` 首次推理即
+  `Illegal instruction`（崩在 `SelfAttentionFusePass`），关 mkldnn 无效；阿里云镜像无 2.5.2，已卸载回滚。
+  另：`rapidocr` 用的就是 PaddleOCR 的 `ch_PP-OCRv4_det/rec` 模型（onnxruntime 推理），
+  所以「paddleocr 2.x vs rapidocr」本质是同模型换运行时，对选型信息量很低。详见 `STATUS.md` Q 段。
 - **所有在线引擎的真实请求**（qwen-vl-max / gpt-4o-mini / glm-4v / gemini / 云 OCR aliyun/tencent/baidu）：无任何 API key，只验证缺 key 报错与离线假响应解析。
 - **本地 VLM（ollama / transformers）真实推理**：无 GPU、无 ollama 服务，只验证 device 探测与请求构造。
 - **视频 / 音频模态**：框架预留了 `media_bytes / duration_s / Line.start_ms/end_ms` 与按秒/分钟计费，数据与端到端跑通未验证。

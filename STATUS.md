@@ -1,7 +1,7 @@
 # 任务状态清单
 
 > 项目：`/home/archermind/workspace/ai-stack/model_test`（vlm-ocr-eval，OCR / VLM 图文识别评测与选型系统）
-> 更新：2026-11-12 · 由主控逐项实测后落笔
+> 更新：2026-11-13 · 由主控逐项实测后落笔
 > 标记含义：`[x]` 已实测通过 ｜ `[~]` 代码+单测就绪但未真跑外部 ｜ `[ ]` 未做/阻塞
 
 ---
@@ -14,7 +14,8 @@
 - [x] 本地 OCR 依赖：rapidocr-onnxruntime 1.4.4 + onnxruntime（**可真跑**）
 - [x] 中文字体确认：`/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc`
 - [ ] tesseract 二进制 + 中文语言包（无 sudo，未装）
-- [ ] paddleocr / paddlepaddle（未装，wheel 数百 MB）
+- [x] paddleocr / paddlepaddle —— **本机不可用**：无 `avx512f`，paddle 2.6.2 首推理即 SIGILL；
+      已实测后卸载回滚（详见 Q 段）。镜像无 2.5.2
 - [ ] 在线 API key（DASHSCOPE / OPENAI / ZHIPU / GEMINI 均无）
 - [ ] ollama 服务（未装，本机无 GPU）
 
@@ -35,7 +36,8 @@
 
 - [x] `ocr.rapidocr` — 本地 CPU，真跑通（12 张难样本 CER 0.28%）
 - [~] `ocr.tesseract` — adapter 完整，缺二进制时中文报错+安装命令已验证；真实识别未跑
-- [~] `ocr.paddleocr` — 同上，缺包降级已验证；真实识别未跑
+- [ ] `ocr.paddleocr` — adapter 完整（2.x/3.x 双 API），但**本机装不上也跑不了**：
+      无 `avx512f` → `SelfAttentionFusePass` SIGILL，关 mkldnn 无效；见 Q 段
 - [~] `ocr.cloud` — 阿里/腾讯/百度，缺 key 报错已验证；真实请求未跑
 - [~] `vlm.openai_compat` — 覆盖 Qwen-VL/GPT-4o/GLM-4V，41 个 mock 单测；真实请求未跑
 - [~] `vlm.gemini` — mock 单测通过；真实请求未跑
@@ -105,10 +107,10 @@
 
 ---
 
-## J. 测试（☑ 141 passed / 14 个测试文件）
+## J. 测试（☑ 155 passed / 15 个测试文件）
 
-- [x] 全仓 `.venv/bin/python -m pytest -q` → **141 passed**
-- [x] 指标 / 文本归一化 / 引擎注册 / OCR adapter / VLM（41 个 mock）/ runner / baseline / CLI / 工具 / 端到端报告 / cache prompt_file
+- [x] 全仓 `.venv/bin/python -m pytest -q` → **155 passed**
+- [x] 指标 / 文本归一化 / 引擎注册 / OCR adapter / VLM（41 个 mock）/ runner / baseline / CLI / 工具 / 端到端报告 / cache prompt_file / md_gt 对齐（14 项）
 
 ---
 
@@ -126,8 +128,9 @@
 
 ## L. 待你配合（阻塞真实选型）
 
-- [ ] 放入真实语料：`datasets/<场景名>/images/` + `labels/<同名>.json`（L2 带 box 最可信）
-- [ ] 没有标注则先 `label draft` 出草稿，再 `label review` 人工校对
+- [x] 放入真实语料第一批：`datasets/docshot/`（2 张 1834×928 密集小字截图，来自 Perfetto 路线图 .md 源码）
+- [ ] 扩充真实语料：`datasets/<场景名>/images/` + `labels/<同名>.json`（L2 带 box 最可信）——2 张相似样本不足以支撑选型
+- [ ] 没有标注则先 `label draft` 出草稿，再 `label review` 人工校对；文档截图优先用 `tools/md_gt.py`
 - [ ] 装 tesseract：`sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng`
 - [ ] 配 API key：`DASHSCOPE_API_KEY` / `OPENAI_API_KEY` / `ZHIPU_API_KEY` / `GEMINI_API_KEY`
 - [ ] 本地 VLM：装 ollama 后 `ollama pull qwen2.5vl:3b`（无 GPU 走 CPU，秒级/图）
@@ -137,7 +140,8 @@
 
 ## M. 已知未验证项（诚实声明，README §11 同步）
 
-- [ ] tesseract / paddleocr 真实识别结果
+- [ ] tesseract 真实识别结果
+- [x] paddleocr 真实识别结果 → **本机不可用，见 P 段**（已实测，非推测）
 - [ ] 所有在线引擎与云 OCR 真实请求
 - [ ] 本地 VLM（ollama / transformers）真实推理
 - [ ] GPU / CUDA 路径真机
@@ -182,3 +186,60 @@
       `uv build` 出的 wheel 顶层含 `report/` 与 `tools/`；装进临时 venv 后在 `/tmp` 执行 `veval report` 成功
 - [ ] 本段仍未验证：tesseract / paddleocr / 云 OCR / 在线 VLM / 本地 ollama 的真实识别结果（缺二进制、缺包、缺 key、缺服务）；
       GPU / CUDA 路径；视频 / 音频模态；`.pdf` 样本实际报错文本
+
+---
+
+## P. 真实语料接入：docshot + .md 反推标注（2026-11-13）
+
+用户提供 2 张截图（`20261113091044_51_67.png` / `20261113112745_52_67.png`，Perfetto+Simpleperf
+路线图的密集小字截屏，中英+代码+表格混排）与对应 `.md` 源文件，落地为 `datasets/docshot/`。
+
+- [x] 目录落位：`datasets/docshot/{images,markdown,labels}` + `meta.yaml`（lang=mixed / scene=文档截图 / 5 项 hard_cases）
+- [x] 新增 `tools/md_gt.py`：**只用 OCR 定位「截图照的是 .md 第几行到第几行」，标注内容取自 .md 原文**，
+      避免「拿被测引擎输出当标准答案」的自证循环；对齐按行区间重叠归属（空行长度为 0，只看块起点会把
+      跨空行的长匹配算到上一行，导致最后一段被截断，已修）
+- [x] 对齐结果（`--dry-run` 实测）：`20261113091044` → 第 1~39 行（2305 字，覆盖率 0.91）；
+      `20261113112745` → 第 1~35 行（2179 字，覆盖率 0.92）
+- [x] 口径校准：定位自检改走「传文件路径」（RapidOCR 内部 cv2/BGR），与引擎适配器一致；
+      改前 RGB 喂图自检 CER 7.90%/15.51%，改后 **12.10%/19.00%，与正式跑分完全相等**
+- [x] 过程残留清理：`label draft` 用 rapidocr 出的草稿 json 已移到 `labels_draft_rapidocr/`，
+      否则 `.json` 优先级高于 `.txt`（`core/dataset.py:56`），会把自证循环的标注当 GT
+- [x] `cli.py run -c configs/docshot.yaml`（新增配置，单引擎 rapidocr）实测：
+      **CER 0.156 = SUB 0.049 + DEL 0.107 + INS 0.000，完整率 0.844**，P50 11319ms（无 GPU，CPU ~11s/图）
+- [x] `cli.py report results/docshot` → 6 个文件（report.html 133K，0 外链）
+- [x] `tests/test_md_gt.py` 14 项（空行跨段归属、范围补齐、无关文本拒绝、dry-run/跳过/失败三种退出码）
+      → 全仓 **155 passed**
+- [ ] 未验证：这些数字只是 rapidocr 单引擎基线，**没有第二个引擎可比，不构成选型结论**；
+      tesseract / 云 OCR / 在线 VLM 仍缺二进制、缺 key；paddleocr 已实测在本机不可用（见 Q 段）
+
+---
+
+## Q. paddleocr 接入尝试：实测失败并回滚（2026-11-13）
+
+目标：给 `datasets/docshot` 加第二个引擎，把只有一行的对比表变成真实选型。
+
+- [x] 安装：`paddlepaddle==2.6.2` + `paddleocr==2.9.1`（阿里云镜像，cp310 只有 2.6.2 与 3.x，
+      **没有 2.5.2** —— 那个是已知能在纯 AVX2 CPU 上跑的版本，装不上）
+- [x] 补齐 `setuptools`（`uv venv` 默认不装，`import paddle` 会因缺它挂掉）
+- [x] 导入 OK：`paddle 2.6.2` / `paddleocr 2.9.1` / `is_compiled_with_cuda()=False`
+- [x] **首次推理直接 SIGILL**：`FatalError: Illegal instruction`，
+      崩在 `paddle::framework::ir::SelfAttentionFusePass::ApplyImpl`（`OptimizeInferenceProgram` 阶段）
+- [x] 根因定位：CPU 是 `i7-13700`，有 avx/avx2/fma，**没有 avx512f**（12 代以后 Intel 全线砍掉）。
+      paddle 2.6.x 的 Linux 轮子里存在 AVX512 专用代码路径 → 不是参数问题，换 `enable_mkldnn=False` 仍崩
+- [x] 回滚：`uv pip uninstall paddlepaddle paddleocr`；回归 **155 passed**，
+      numpy 停在 1.26.4（未被升级，pandas/onnxruntime/rapidocr 均正常）
+- [x] 副作用记录：装 paddle 期间测试出现 `1 skipped`（`test_ocr_adapters.py:239`
+      「本机已装 paddleocr，缺依赖分支无法触发」）—— 装了不可用的包反而降低测试覆盖，
+      这也是回滚的理由之一；venv 从 462M 涨到 944M，paddle 引入的依赖（scipy/opencv*/scikit-learn/
+      matplotlib 等）仍在，未清理（怕破坏可用环境，如需干净可用 `uv venv --clear` 重建，uv 缓存已热）
+
+**比失败更有价值的发现**：`rapidocr_onnxruntime/models/` 里是
+`ch_PP-OCRv4_det_infer.onnx` + `ch_PP-OCRv4_rec_infer.onnx` + `ch_ppocr_mobile_v2.0_cls_infer.onnx`
+—— **rapidocr 跑的就是 PaddleOCR 的 PP-OCRv4 模型**，只是换成 onnxruntime 推理。
+所以「加 paddleocr 2.x 做对比」本质是**同模型换运行时**，CER 大概率几乎相同，
+对「该选哪个 OCR」这个问题几乎没有信息量。
+
+→ 结论：真正有信息量的第二引擎只有三条，
+  ① `tesseract`（需 sudo，模型与前两者完全无关，能回答「15.6% 是 rapidocr 的问题还是这批样本本来就难」）
+  ② 云端 VLM（需 key，是「本地免费 vs 花钱」这个真决策的分水岭）
+  ③ `paddleocr 3.x`（PP-OCRv5，模型确实换代；但要再下 ~1.5G 且能否避开 SIGILL 未知）

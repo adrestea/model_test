@@ -1,0 +1,39 @@
+# Perfetto + Simpleperf 动手练习路线图(四级 Stage · 无设备优先)
+
+> 模块定位:`Performance/` 目录下的**跨模块、四级能力阶梯的纵向练习编排**。配套 `tools-perfetto-simpleperf-精通.md`(交付物 A)与 `perfetto-simpleprof.md`(源参考)。源参考 §7 粒子 VBO 案例数据齐全(IPC 0.72→1.85、L1D Miss 38.2%→3.1%、最大帧时长 28ms→7.2ms),是 Lv2/Lv3 无设备主推演材料。
+
+---
+
+## ⚠️ 诚实性前置声明(对齐用户全局规则「未经验证须标注」)
+
+本路线图基于「**暂无目标设备**」环境。凡需 root/真机 PMU/TMA/带符号 so 的练习标 ⬜ 待真机;机制/SQL/命令原标 **完成但未验证**(解析无误,未实跑)。**Lv0/Lv1/Lv2 核心 SQL 经 v57.2 真 trace 实测跑通**(`actual_frame_timeline_slice` / `thread_state` / jank→thread_state 联合,详见 `未验证清单.md` 第八节 V1-V7;实测发现并已修正 C1-C3);**第二轮 v57.2 实测:EXTRACT_ARG 对端 / window / cpufreq / android_jank_cuj 已验;实测修正 C4-C5 已回填(详见 `未验证清单.md` §八 V8-V12)**;TMA/PMU/`--trace-offcpu` 等真机项仍「完成但未验证」。
+
+| 内容类 | 验证状态标注 | 含义 |
+|--------|-------------|------|
+| 机制原理、config 字段、SQL 语法、Python API、命令参数 | **部分验证(v57.2 真 trace SQL 实跑;真机项仍待)** | Lv0/Lv1/Lv2 核心 SQL 经 v57.2 实测跑通(见 `未验证清单.md` 第八节 V1-V7);config/Python API/真机命令仍未实跑 |
+| 健康阈值表(IPC/Cache Miss/TMA 占比等) | **诊断起点 · 待真机校准** | 经验起点值,非硬门槛;因核/频率/制程而异 |
+| 原始 PMU 事件编号(r03/r23/r24…)、TMA L1/L2 公式与系数 | **依 A76 示例 · 待真机/TRM 复核** | 仅适用 Cortex-A76;他核需查对应 TRM/PMU guide |
+| TMA 顶层归因能力(Lv3) | **完成但未验证(只能推演,不能独立归因)** | 无真机时只能复读 §7 示例数据;对未知 perf.data 独立 L1→L2 下钻需真机 |
+| simpleperf `--trace-offcpu`/`annotate.py`/原始 r 编号采样 | **推演级 · 待真机** | 需 root + 带符号 so + 目标 SoC,无设备下连「跑通命令」都做不到 |
+
+### FrameJankType 四分类口径映射表(本路线图 ↔ M0d ↔ M3)
+
+| 本路线图/A | M0d | M3 | 说明 |
+|---|---|---|---|
+| Self | (并入 App) | Self | Self⊆App;M0d 无 Self |
+| App | App | App | App 段(含 Self) |
+| SF | SF | SF | SurfaceFlinger 合成段 |
+| Display | Display | Display | 显示段 |
+| (并入 App/SF) | Missed | Missed | Missed 在 M0d/M3 单列,本路线图简化并入 App/SF 段 |
+
+> **口径声明**:本路线图四分类 = Self/App/SF/Display;回引 M0d/M3 时按此映射对照,**M0d 无 Self、M3 含 Missed,勿直接套用**。**⚠️ v57.2 实测(`jank_type` 真实枚举,见未验证清单 §八 V5/C2)**:`jank_type` 列实际是描述性字符串(`App Deadline Missed`/`SurfaceFlinger CPU Deadline Missed`/`Buffer Stuffing`/`Display HAL`/`Prediction Error`/`Unknown Jank`/`None` 等,可含逗号组合),非 `Self/App/SF/Display` 枚举——SQL 用 `LIKE '%关键词%'` 匹配,`='App'`/`='SF'` 命中 0 行。对照表:App Deadline Missed→App 段;SurfaceFlinger CPU/GPU Deadline/Scheduling→SF 段;Display HAL→Display 段;Buffer Stuffing/Prediction Error/Unknown Jank→其他。真实 trace 实测样例分布(本机 v57.2,44.8MB):Buffer Stuffing 95 / SF CPU Deadline 22 / App Deadline Missed 5 / SF Scheduling 4 / Unknown Jank 3 / Prediction Error 3 / SF GPU Deadline 2 / Display HAL 1。
+
+---
+
+## 一、与各模块「五 Todolist / 验证四件套」边界声明
+
+本路线图 = **跨模块、四级能力阶梯的纵向练习编排**(纵向:能力从认红帧到 TMA 归因逐级上升);各模块「五 Todolist / 验证四件套」= **单模块知识点横向清单**(横向:覆盖单模块全部知识点)。
+
+**两者不重定义、不互替**:本路线图的 **Stage 验收项回引对应模块 Check 编号**(见下表),而非重新定义一套验收口径。若本路线图与某模块 Check 出现口径冲突,以**模块原文 Check 为准**,本路线图随之勘误。
+
+### Stage 验收回引对照表

@@ -68,7 +68,21 @@ hard_cases: [模糊, 手写, 低光]   # 用于报告分难度归因
 
 ## 没有标注怎么办
 
+**先问一句：这批语料是不是某份文档的截图？** 如果是 Markdown 源码视图截图（`#` / `**` / `|` 在画面里），真值就在源文件里，别手工转录：
+
+```bash
+# .md 放到 datasets/<名>/markdown/ 下
+.venv/bin/python -m tools.md_gt --dataset <名> --dry-run   # 先看对齐到哪几行
+.venv/bin/python -m tools.md_gt --dataset <名>             # 写 labels/<stem>.txt
+```
+
+原理是「OCR 只用来定位行号，标注取自 .md 原文」，所以不会拿被测引擎自己的输出当标准答案。详见 README §3。
+
+否则再用草稿 + 人工路线：
+
 先跑 `veval label draft`（用最强在线模型生成草稿 GT），再跑 `veval label review`（生成本地 HTML 校正页，改完导出标准标注）。人只做校对，不做全量手打。
+
+⚠ 反例：**别用「你即将评测的那个引擎」出草稿当 GT**（比如用 rapidocr 给 rapidocr 出草稿），那是自证循环，CER 会虚低到无意义。草稿必须由更强模型生成 + 人工确认。
 
 ## 快速自检
 
